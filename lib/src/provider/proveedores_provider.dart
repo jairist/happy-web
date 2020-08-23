@@ -1,15 +1,17 @@
 import 'dart:convert';
 
 import 'package:happy/src/models/proveedor.dart';
+import 'package:happy/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:http/http.dart' as http;
 
 class ProveedorProvider{
 
   final String _url = 'https://happy-a6611.firebaseio.com';
+  final _prefs = new PreferenciasUsuario();
 
 
   Future<bool> crearProveedor(ProveedorModelo proveedorModelo) async{
-    final url = '$_url/proveedores.json';
+    final url = '$_url/proveedores.json?auth=${_prefs.token}';
     //https://happy-a6611.firebaseio.com/proveedores.json
 
     final resp = await http.post(url, body: proveedorModeloToJson(proveedorModelo));
@@ -21,7 +23,7 @@ class ProveedorProvider{
 
   }
   Future<List<ProveedorModelo>> cargarProveedores() async {
-    final url = '$_url/proveedores.json';
+    final url = '$_url/proveedores.json?auth=${_prefs.token}';
 
     final resp = await http.get(url);
 
@@ -42,11 +44,12 @@ class ProveedorProvider{
   }
 
   Future<int> borrarProveedor(String id ) async{
-    final url = '$_url/proveedor/$id.json';
+    final url = '$_url/proveedor/$id.json?auth=${_prefs.token}';
+    print(url);
 
     final resp = await http.delete(url);
 
-    print(resp.body);
+    print(resp.statusCode);
 
     return 1;
   }

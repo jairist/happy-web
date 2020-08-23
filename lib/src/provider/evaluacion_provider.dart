@@ -70,7 +70,9 @@ class EvaluacionProvider{
   Future<int> borrarEvaluacion( String id ) async { 
 
     final url  = '$_url/evaluaciones/$id.json?auth=${_prefs.token}';
+
     final resp = await http.delete(url);
+    
 
     print( resp.body );
 

@@ -33,7 +33,7 @@ class ListaProveedores extends StatelessWidget {
               ),
           );
         }else {
-          print("No se esta cargando data");
+          
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -52,6 +52,7 @@ class ListaProveedores extends StatelessWidget {
         onDismissed: (direccion){
           //TODO: Borrar proveedor
           proveedorProvider.borrarProveedor(proveedor.id);
+          print(proveedor.id);
         },
         child: ListTile(
           title: Text(proveedor.nombre??"Nombre"),

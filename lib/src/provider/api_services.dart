@@ -13,11 +13,11 @@ class ApiData {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
-      print(jsonResponse);
+      //print(jsonResponse);
       jsonResponse.forEach((data) {
         ApiData.githubTrendingModel.add(GithubTrendingModel.fromJson(data));
       });
-      print(ApiData.githubTrendingModel);
+      //print(ApiData.githubTrendingModel);
     } else {
       print("Request failed with status: ${response.statusCode}.");
     }
