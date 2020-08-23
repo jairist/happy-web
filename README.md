@@ -1,6 +1,6 @@
 # happy
 
-A new Flutter project.
+Este es el proyecto web de la aplicación happy, aqui se estará trabajando con back-offfice.
 
 ## Getting Started
 
