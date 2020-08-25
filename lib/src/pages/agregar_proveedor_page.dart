@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:happy/src/blocs/agregar_proveedor.dart';
 import 'package:happy/src/models/proveedor.dart';
+import 'package:happy/src/models/servicio_model.dart';
 import 'package:happy/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:happy/src/provider/proveedores_provider.dart';
 import 'package:happy/src/utils/utils.dart' as utils;
@@ -27,9 +28,9 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
   ProveedorModelo proveedor = new ProveedorModelo();
   final _prefs = new PreferenciasUsuario();
 
-  List<Beneficio> _beneficios = Beneficio.getBeneficios();
-  List<DropdownMenuItem<Beneficio>> _dropdownMenuItems;
-  Beneficio _beneficioSeleccionado;
+  List<Servicio> _beneficios = Servicio.getServicios();
+  List<DropdownMenuItem<Servicio>> _dropdownMenuItems;
+  Servicio _beneficioSeleccionado;
  
   @override
   void initState() {
@@ -38,9 +39,9 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
     super.initState();
   }
  
-  List<DropdownMenuItem<Beneficio>> buildDropdownMenuItems(List beneficios) {
-    List<DropdownMenuItem<Beneficio>> items = List();
-    for (Beneficio beneficio in beneficios) {
+  List<DropdownMenuItem<Servicio>> buildDropdownMenuItems(List beneficios) {
+    List<DropdownMenuItem<Servicio>> items = List();
+    for (Servicio beneficio in beneficios) {
       items.add(
         DropdownMenuItem(
           value: beneficio,
@@ -51,7 +52,7 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
     return items;
   }
  
-  onChangeDropdownItem(Beneficio servicioSeleccionado) {
+  onChangeDropdownItem(Servicio servicioSeleccionado) {
     setState(() {
       _beneficioSeleccionado = servicioSeleccionado;
       _prefs.userServicioSeleccionado = servicioSeleccionado.name;
@@ -386,23 +387,5 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
       ],
     );
 
-  }
-}
-
-class Beneficio {
-  int id;
-  String name;
- 
-  Beneficio(this.id, this.name);
- 
-  static List<Beneficio> getBeneficios() {
-    return <Beneficio>[
-      Beneficio(2, 'Subsidio en Fripick'),
-      Beneficio(3, 'Creditos en Farmacias'),
-      Beneficio(4, 'Combustible'),
-      Beneficio(5, 'PedidosYa'),
-      Beneficio(6, 'Bonos de supermercados'),
-      Beneficio(7, 'Club de precio'),
-    ];
   }
 }

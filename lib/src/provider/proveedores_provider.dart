@@ -42,7 +42,7 @@ class ProveedorProvider{
 
     return proveedores;
   }
-
+  
   Future<int> borrarProveedor(String id ) async{
     final url = '$_url/proveedor/$id.json?auth=${_prefs.token}';
     print(url);

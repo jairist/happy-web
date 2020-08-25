@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 
 
 class ApiData {
-  static List<GithubTrendingModel> githubTrendingModel;
-  static Future<dynamic> getData() async {
+   static List<GithubTrendingModel> githubTrendingModel;
+   static Future<dynamic> getData() async {
     githubTrendingModel = [];
     var url =
         "https://github-trending-api.now.sh/repositories?language=&since=daily";

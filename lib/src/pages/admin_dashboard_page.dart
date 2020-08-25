@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:happy/src/models/evaluacion_model.dart';
+import 'package:happy/src/models/proveedor.dart';
+import 'package:happy/src/models/servicio_model.dart';
 import 'package:happy/src/provider/api_services.dart';
+import 'package:happy/src/provider/evaluacion_provider.dart';
+import 'package:happy/src/provider/proveedores_provider.dart';
 import 'package:happy/src/utils/utils.dart';
 import 'package:happy/src/widgets/donut_chart.dart';
 import 'package:happy/src/widgets/staket_barchar.dart';
@@ -16,21 +21,38 @@ class AdminDashboardPage extends StatefulWidget {
 
 class _AdminDashboardPageState extends State<AdminDashboardPage> {
   bool loading = false;
+  EvaluacionProvider evaluacion = new EvaluacionProvider();
+  ProveedorProvider proveedorProvider = new ProveedorProvider();
+  List<EvaluacionModelo> evaluaciones; 
+  List<ProveedorModelo> proveedores;
+
+  List<Servicio> servicios = Servicio.getServicios();
+
+  int totalEvaluaciones = 0;
+  int totalProveedores = 0;
   @override
   void initState() {
     super.initState();
     getDataFromUi();
+    
   }
    getDataFromUi() async {
     loading = false;
-    await ApiData.getData();
+    evaluaciones = await evaluacion.cargarEvaluaciones();
+    proveedores = await proveedorProvider.cargarProveedores();
+    totalEvaluaciones = evaluaciones.length;
+    totalProveedores = proveedores.length;
     setState(() {
       loading = true;
     });
   }
   
+  
   @override
   Widget build(BuildContext context) {
+   
+    
+
     print(MediaQuery.of(context).size.height);
     return Scaffold(
       body: CustomScrollView(
@@ -46,10 +68,10 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              tickets(colors[0], context, Icons.format_list_bulleted, randomNumbers[1], "Proveedores" ),
-                              tickets(colors[1], context, Icons.sentiment_very_satisfied, randomNumbers[2], "Servicios" ),
-                              tickets(colors[2], context, Icons.spellcheck, randomNumbers[3], "Evaluaciones" ),
-                              tickets(colors[3], context, Icons.comment, randomNumbers[3], "Comentarios" ),
+                              tickets(colors[0], context, Icons.format_list_bulleted, totalProveedores, "Proveedores" ),
+                              tickets(colors[1], context, Icons.sentiment_very_satisfied, servicios.length, "Servicios" ),
+                              tickets(colors[2], context, Icons.spellcheck, totalEvaluaciones, "Evaluaciones" ),
+                              tickets(colors[3], context, Icons.comment, totalEvaluaciones, "Comentarios" ),
                               
                             ],
                             ),
@@ -58,10 +80,10 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              tickets(colors[0], context, Icons.format_list_bulleted, randomNumbers[1], "Proveedores" ),
-                              tickets(colors[1], context, Icons.sentiment_very_satisfied, randomNumbers[2], "Servicios" ),
-                              tickets(colors[2], context, Icons.spellcheck, randomNumbers[3], "Evaluaciones" ),
-                              tickets(colors[3], context, Icons.comment, randomNumbers[3], "Comentarios" ),    
+                              tickets(colors[0], context, Icons.format_list_bulleted, totalProveedores, "Proveedores" ),
+                              tickets(colors[1], context, Icons.sentiment_very_satisfied, servicios.length, "Servicios" ),
+                              tickets(colors[2], context, Icons.spellcheck, totalEvaluaciones, "Evaluaciones" ),
+                              tickets(colors[3], context, Icons.comment, totalEvaluaciones, "Comentarios" ),    
                             ]),
                         ),
                     SizedBox(
@@ -72,9 +94,11 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                     height: 16,
                   ),
                   loading
-                      ? tableCard(
+                      ? new TableCard().tableCard(
                           context,
-                          ApiData.githubTrendingModel,
+                          //ApiData.githubTrendingModel,
+                          //proveedorProvider.getData(),
+                          proveedores,
                         )
                       : Center(
                           child: CircularProgressIndicator(),

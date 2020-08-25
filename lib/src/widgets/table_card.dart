@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:happy/src/models/github_model.dart';
+import 'package:happy/src/models/global.dart';
+import 'package:happy/src/models/proveedor.dart';
+import 'package:happy/src/provider/proveedores_provider.dart';
 
 
+class TableCard{
 
-
-Widget tableCard(BuildContext context, List<GithubTrendingModel> data) {
+Widget tableCard(BuildContext context, List<ProveedorModelo> data) {
+  //proveedores = proveedorProvider.cargarProveedores();
   return Card(
-    elevation: 2.0,
+    elevation: 5.0,
     child: Column(children: [
       Container(
         width: MediaQuery.of(context).size.width < 1300
@@ -14,7 +18,8 @@ Widget tableCard(BuildContext context, List<GithubTrendingModel> data) {
             : MediaQuery.of(context).size.width - 330,
         padding: EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(width: 1, color: Colors.grey))),
+          color: lightGreen,
+            border: Border(bottom: BorderSide(width: 1, color: Colors.greenAccent))),
         child: Table(
           columnWidths: <int, TableColumnWidth>{
             0: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
@@ -52,7 +57,7 @@ Widget tableCard(BuildContext context, List<GithubTrendingModel> data) {
               Container(
                 padding: EdgeInsets.all(14),
                 child: Text(
-                  "Servicio",
+                  "Descripción",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black,
@@ -64,7 +69,7 @@ Widget tableCard(BuildContext context, List<GithubTrendingModel> data) {
               Container(
                 padding: EdgeInsets.all(18),
                 child: Text(
-                  "Indice",
+                  "Servicio",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black,
@@ -102,7 +107,7 @@ Widget tableCard(BuildContext context, List<GithubTrendingModel> data) {
               3: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
               4: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
             },
-            children: List<TableRow>.generate(10, (i) {
+            children: List<TableRow>.generate(data.length, (i) {
               return TableRow(
                   decoration: BoxDecoration(
                       border: Border(
@@ -122,7 +127,7 @@ Widget tableCard(BuildContext context, List<GithubTrendingModel> data) {
                     Container(
                       padding: EdgeInsets.all(18),
                       child: Text(
-                        data[i].author.toString(),
+                        data[i].nombre.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -133,7 +138,7 @@ Widget tableCard(BuildContext context, List<GithubTrendingModel> data) {
                     Container(
                       padding: EdgeInsets.all(18),
                       child: Text(
-                        data[i].language.toString(),
+                        data[i].descripcion.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -144,7 +149,7 @@ Widget tableCard(BuildContext context, List<GithubTrendingModel> data) {
                     Container(
                       padding: EdgeInsets.all(18),
                       child: Text(
-                        data[i].stars.toString(),
+                        data[i].servicio.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -168,4 +173,5 @@ Widget tableCard(BuildContext context, List<GithubTrendingModel> data) {
       ),
     ]),
   );
+}
 }

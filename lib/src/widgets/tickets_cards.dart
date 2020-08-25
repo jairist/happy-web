@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget tickets(Color color, BuildContext context, IconData icon,
-    String ticketsNumber, String newCount) {
+    int ticketsNumber, String newCount) {
   return Card(
     elevation: 2,
     child: Container(
@@ -38,7 +38,7 @@ Widget tickets(Color color, BuildContext context, IconData icon,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                ticketsNumber,
+                ticketsNumber.toString(),
                 style: TextStyle(
                   fontSize: 34,
                   color: Colors.white,

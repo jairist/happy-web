@@ -99,7 +99,6 @@ List<String> newTexts = [
   "Evaluaciones!",
   "Detalles!"
 ];
-List<String> randomNumbers = ["13", "12", "124", "13", "14"];
 List<IconData> icons = [
   Icons.room_service,
   Icons.track_changes,

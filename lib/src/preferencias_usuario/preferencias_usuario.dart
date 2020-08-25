@@ -57,7 +57,7 @@ class PreferenciasUsuario {
 
     // GET y SET servicio seleccionado
   get userServicioSeleccionado {
-    return _prefs.getString('userServicioSeleccionado') ?? 'admin';
+    return _prefs.getString('userServicioSeleccionado') ?? 'Subsidio en Fripick';
   }
 
   set userServicioSeleccionado( String value ) {

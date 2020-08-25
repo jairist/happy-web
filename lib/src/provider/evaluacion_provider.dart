@@ -27,13 +27,9 @@ class EvaluacionProvider{
 
   }
   Future<bool> editarEvaluacion( EvaluacionModelo evaluacion ) async {
-    
     final url = '$_url/evaluaciones/${ evaluacion.id }.json?auth=${_prefs.token}';
-
     final resp = await http.put( url, body: evaluacionModeloToJson(evaluacion) );
-
     final decodedData = json.decode(resp.body);
-
     print( decodedData );
 
     return true;
@@ -48,7 +44,6 @@ class EvaluacionProvider{
     final Map<String, dynamic> decodedData = json.decode(resp.body);
     final List<EvaluacionModelo> evaluaciones = new List();
 
-
     if ( decodedData == null ) return [];
 
     decodedData.forEach( ( id, prod ){
@@ -60,10 +55,22 @@ class EvaluacionProvider{
 
     });
 
-    // print( productos[0].id );
-
+    print( evaluaciones[0].id );
     return evaluaciones;
+  }
 
+  Future<int> totalEvaluaciones() async {
+
+     final url  = '$_url/evaluaciones.json?auth=${_prefs.token}';
+    final resp = await http.get(url);
+
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+
+    if ( decodedData == null ) return 0;
+
+    print("Total Evaluaciones " + decodedData.length.toString());
+
+    return decodedData.length;
   }
 
 
