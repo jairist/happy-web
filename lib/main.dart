@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:happy/src/blocs/provider.dart';
+import 'package:happy/src/pages/detalle_evaluaciones_proveedor_page.dart';
 import 'package:happy/src/pages/evaluacion_page.dart';
 // import 'package:happy/src/pages/gracias_page.dart';
 import 'package:happy/src/pages/home_alternativo.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
       //'home'      : (BuildContext context) => HomeAlternativo(), 
       'home'      : (BuildContext context) => HomeScreen(),
       'listaProveedores'  :  (BuildContext context) => ListaProveedores(),
+      'detalleProveedor'  :  (BuildContext context) => DetalleEvaluacionesProveedor(),
       'evaluar'   : (BuildContext context) => EvaluacionPage(), 
       'resetear'   : (BuildContext context) => ResetearClave(), 
       'gracias'   : (BuildContext context) => GraciasPage(), 

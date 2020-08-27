@@ -55,9 +55,34 @@ class EvaluacionProvider{
 
     });
 
-    print( evaluaciones[0].id );
+    print('$decodedData');
     return evaluaciones;
   }
+
+  //   Future<List<EvaluacionModelo>> cargarTop10Evaluaciones() async {
+
+  //   final url  = '$_url/evaluaciones.json?auth=${_prefs.token}';
+  //   // 'https://dinosaur-facts.firebaseio.com/dinosaurs.json?orderBy="weight"&limitToLast=2&print=pretty'
+  //   final resp = await http.get(url);
+
+  //   final Map<String, dynamic> decodedData = json.decode(resp.body);
+  //   final List<EvaluacionModelo> evaluaciones = new List();
+
+  //   if ( decodedData == null ) return [];
+
+  //   decodedData.forEach( ( id, prod ){
+
+  //     final prodTemp = EvaluacionModelo.fromJson(prod);
+  //     print(prodTemp);
+  //     prodTemp.id = id;
+
+  //      print('$decodedData');
+
+  //   });
+
+  //   print( evaluaciones[0].id );
+  //   return evaluaciones;
+  // }
 
   Future<int> totalEvaluaciones() async {
 

@@ -3,21 +3,19 @@ import 'package:happy/src/models/proveedor.dart';
 import 'package:happy/src/provider/proveedores_provider.dart';
 import 'package:happy/src/widgets/table_card.dart';
 
-class ListaProveedores extends StatelessWidget {
+class DetalleEvaluacionesProveedor extends StatelessWidget {
 
   final proveedorProvider = new ProveedorProvider();
+  TableCard tableCard = new TableCard();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-         margin: EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(top: 20),
+
         child: _crearListado(),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.green,
-      //   child: Icon(Icons.add),
-      //   onPressed: ()=> Navigator.pushNamed(context, 'home')),
     );
   }
   Widget _crearListado() {
@@ -28,14 +26,6 @@ class ListaProveedores extends StatelessWidget {
         if(snapshot.hasData){
           final proveedores = snapshot.data;         
           return new TableCard().tablaListaProveedores(context, proveedores);
-          
-          // Container(
-          //   child: ListView.builder(
-          //     itemCount:proveedores.length,
-          //     itemBuilder: (context, i) => _crearItem(proveedores[i], context),
-              
-          //     ),
-          // );
         }else {
           
           return Center(

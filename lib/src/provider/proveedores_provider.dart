@@ -31,6 +31,8 @@ class ProveedorProvider{
 
     if(decodeData == null) return [];
 
+    print(decodeData);
+
     final List<ProveedorModelo> proveedores = new List(); 
 
     decodeData.forEach((id, prov) { 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:happy/src/models/evaluacion_model.dart';
 import 'package:happy/src/models/proveedor.dart';
 import 'package:happy/src/models/servicio_model.dart';
-import 'package:happy/src/provider/api_services.dart';
 import 'package:happy/src/provider/evaluacion_provider.dart';
 import 'package:happy/src/provider/proveedores_provider.dart';
 import 'package:happy/src/utils/utils.dart';
@@ -24,6 +23,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   EvaluacionProvider evaluacion = new EvaluacionProvider();
   ProveedorProvider proveedorProvider = new ProveedorProvider();
   List<EvaluacionModelo> evaluaciones; 
+  List<EvaluacionModelo> top10Evaluaciones; 
   List<ProveedorModelo> proveedores;
 
   List<Servicio> servicios = Servicio.getServicios();
@@ -40,6 +40,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     loading = false;
     evaluaciones = await evaluacion.cargarEvaluaciones();
     proveedores = await proveedorProvider.cargarProveedores();
+    //top10Evaluaciones = await evaluacion.cargarTop10Evaluaciones();
     totalEvaluaciones = evaluaciones.length;
     totalProveedores = proveedores.length;
     setState(() {
@@ -50,9 +51,6 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   
   @override
   Widget build(BuildContext context) {
-   
-    
-
     print(MediaQuery.of(context).size.height);
     return Scaffold(
       body: CustomScrollView(
@@ -94,16 +92,13 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                     height: 16,
                   ),
                   loading
-                      ? new TableCard().tableCard(
-                          context,
-                          //ApiData.githubTrendingModel,
-                          //proveedorProvider.getData(),
-                          proveedores,
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(),
-                        ),
-
+                          ? new TableCard().tablaProveedores(
+                              context,
+                              proveedores,
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(),
+                            ),
                     Container(
                       child: Card(
                       shape: RoundedRectangleBorder(
