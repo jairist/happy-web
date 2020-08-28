@@ -38,80 +38,97 @@ class HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading:
-            MediaQuery.of(context).size.width < 1300 ? true : false,
-        title:Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(left: 32),
-                child: Text(
-                  "Happy! Admin Panel : ${_prefs.userName}  ",
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'HelveticaNeue',
-                  ),
-                ),
-              ),
-            ]),
-            actions: <Widget>[
-              SizedBox(width: 32),
-              Container(child: Icon(Icons.web)),
-              SizedBox(width: 32),
-              Container(child: Icon(Icons.account_circle)),
-              SizedBox(width: 32),
-              Container(
-                child: IconButton(
-                  padding: EdgeInsets.all(0),
-                  icon: Icon(Icons.exit_to_app),
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'login');
-                  },
-                ),
-              ),
-              SizedBox(width: 32),
-            ],
-        ),
-        body: Row(
-        children: <Widget>[
-          MediaQuery.of(context).size.width < 1300
-              ? Container()
-              : Card(
-                  elevation: 2.0,
-                  child: Container(
-                      margin: EdgeInsets.all(0),
-                      height: MediaQuery.of(context).size.height,
-                      width: 300,
-                      color: Colors.white,
-                      child: listDrawerItems(false)
-                      ),
-                ),
-          Container(
-            width: MediaQuery.of(context).size.width < 1300
-                ? MediaQuery.of(context).size.width
-                : MediaQuery.of(context).size.width - 310,
-            child: TabBarView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: tabController,
-              children: [
-                AdminDashboardPage(),
-                AgregarProveedorPage(),
-                ListaProveedores(),
-                RegisterPage(),  
-                DetalleEvaluacionesProveedor(),
-                GraciasPage(),
-                ],
-                ),
-              )
-              ],
-        ),
+      appBar: buildAppBar(context),
+        body: buildBody(context),
         drawer: Padding(
           padding: EdgeInsets.only(top: 56),
           child: Drawer(child: listDrawerItems(true))),
     );
+  }
+
+  Row buildBody(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        MediaQuery.of(context).size.width < 1300
+            ? Container()
+            : Card(
+                elevation: 2.0,
+                child: Container(
+                    margin: EdgeInsets.all(0),
+                    height: MediaQuery.of(context).size.height,
+                    width: 300,
+                    color: Colors.white,
+                    child: listDrawerItems(false)
+                    ),
+              ),
+        Container(
+          width: MediaQuery.of(context).size.width < 1300
+              ? MediaQuery.of(context).size.width
+              : MediaQuery.of(context).size.width - 310,
+          child: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: tabController,
+            children: [
+              AdminDashboardPage(),
+              AgregarProveedorPage(),
+              ListaProveedores(),
+              RegisterPage(),  
+              DetalleEvaluacionesProveedor(),
+              GraciasPage(),
+              ],
+              ),
+            )
+            ],
+      );
+  }
+
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading:
+          MediaQuery.of(context).size.width < 1300 ? true : false,
+      title:Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left: 32),
+              child: Text(
+                "Happy! Admin Panel : ${_prefs.userName}  ",
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'HelveticaNeue',
+                ),
+              ),
+            ),
+          ]),
+          actions: <Widget>[
+            SizedBox(width: 32),
+             Container(
+              child: IconButton(
+                padding: EdgeInsets.all(0),
+                icon: Icon(Icons.web),
+                onPressed: (){
+                  Navigator.pushReplacementNamed(context, 'home');
+                },
+              ),
+            
+            ),
+            SizedBox(width: 32),
+            Container(child: Icon(Icons.account_circle)),
+            SizedBox(width: 32),
+            Container(
+              child: IconButton(
+                padding: EdgeInsets.all(0),
+                icon: Icon(Icons.exit_to_app),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'login');
+                },
+              ),
+            ),
+            SizedBox(width: 32),
+          ],
+      );
   }
 
   Widget listDrawerItems(bool drawerStatus) {

@@ -27,15 +27,7 @@ class ListaProveedores extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<List<ProveedorModelo>> snapshot) {
         if(snapshot.hasData){
           final proveedores = snapshot.data;         
-          return new TableCard().tablaListaProveedores(context, proveedores);
-          
-          // Container(
-          //   child: ListView.builder(
-          //     itemCount:proveedores.length,
-          //     itemBuilder: (context, i) => _crearItem(proveedores[i], context),
-              
-          //     ),
-          // );
+          return tablaListaProveedores(context, proveedores);
         }else {
           
           return Center(

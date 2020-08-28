@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:happy/src/models/evaluacion_model.dart';
 import 'package:happy/src/models/global.dart';
 import 'package:happy/src/models/proveedor.dart';
+import 'package:provider/provider.dart';
 
-
-class TableCard{
 
 Widget tablaProveedores(BuildContext context, List<ProveedorModelo> data) {
   //proveedores = proveedorProvider.cargarProveedores();
@@ -362,6 +361,9 @@ Widget tablaEvaluaciones(BuildContext context, List<EvaluacionModelo> data) {
 
 Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
   //proveedores = proveedorProvider.cargarProveedores();
+
+ // final navegacionModel = Provider.of<NavegacionModel>(context);
+
    int cantidad;
 
   if(!data.length.isNaN){
@@ -542,6 +544,4 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
       ),
     ]),
   );
-}
-
 }
