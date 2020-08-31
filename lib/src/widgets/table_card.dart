@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:happy/src/models/evaluacion_model.dart';
 import 'package:happy/src/models/global.dart';
 import 'package:happy/src/models/proveedor.dart';
+import 'package:happy/src/pages/detalle_evaluaciones_proveedor_page.dart';
 import 'package:provider/provider.dart';
 
 
@@ -530,7 +531,15 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                           padding: EdgeInsets.all(8.0),
                           splashColor: Colors.greenAccent,
                           onPressed: () {
-                            Navigator.pushNamed(context, 'detalleProveedor');
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(
+                                builder: (context) => DetalleEvaluacionesProveedor(),
+                                settings: RouteSettings(
+                                  arguments: data[i], 
+                                )
+                              ),
+                              );
                           },
                           child: Text(
                             "Ver detalles",

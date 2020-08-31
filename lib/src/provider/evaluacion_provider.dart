@@ -86,7 +86,7 @@ class EvaluacionProvider{
 
   Future<int> totalEvaluaciones() async {
 
-     final url  = '$_url/evaluaciones.json?auth=${_prefs.token}';
+    final url  = '$_url/evaluaciones.json?auth=${_prefs.token}';
     final resp = await http.get(url);
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
@@ -98,14 +98,10 @@ class EvaluacionProvider{
     return decodedData.length;
   }
 
-
   Future<int> borrarEvaluacion( String id ) async { 
 
     final url  = '$_url/evaluaciones/$id.json?auth=${_prefs.token}';
-
     final resp = await http.delete(url);
-    
-
     print( resp.body );
 
     return 1;

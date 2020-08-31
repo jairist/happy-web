@@ -14,10 +14,6 @@ class ListaProveedores extends StatelessWidget {
          margin: EdgeInsets.only(top: 20),
         child: _crearListado(),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.green,
-      //   child: Icon(Icons.add),
-      //   onPressed: ()=> Navigator.pushNamed(context, 'home')),
     );
   }
   Widget _crearListado() {

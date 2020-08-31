@@ -21,7 +21,7 @@ class HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    tabController = new TabController(vsync: this, length: 6, initialIndex: 0)
+    tabController = new TabController(vsync: this, length: 5, initialIndex: 0)
       ..addListener(() {
         setState(() {
           active = tabController.index;
@@ -72,8 +72,7 @@ class HomeScreenState extends State<HomeScreen>
               AdminDashboardPage(),
               AgregarProveedorPage(),
               ListaProveedores(),
-              RegisterPage(),  
-              DetalleEvaluacionesProveedor(),
+              RegisterPage(),
               GraciasPage(),
               ],
               ),
@@ -138,8 +137,7 @@ class HomeScreenState extends State<HomeScreen>
         createMenuOption(drawerStatus, 1, "Agregar proveedor", Icon(Icons.add_box)),
         createMenuOption(drawerStatus, 2, "Lista Proveedores", Icon(Icons.list)),
         createMenuOption(drawerStatus, 3, "Agregar Usuario", Icon(Icons.add)),
-        createMenuOption(drawerStatus, 4, "Detalle", Icon(Icons.list)),
-        createMenuOption(drawerStatus, 5, "Salir", Icon(Icons.exit_to_app))
+        createMenuOption(drawerStatus, 4, "Salir", Icon(Icons.exit_to_app))
       ]);
       
   }
