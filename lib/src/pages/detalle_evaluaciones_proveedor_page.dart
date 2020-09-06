@@ -22,16 +22,25 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
   List<EvaluacionModelo> evaluaciones; 
   List<EvaluacionModelo> evaluacionPorServicio;
   List<EvaluacioneServicioSeries> data;
-  int totalEvaluaciones = 0;
-  //String servicio = 'Fripick'; 
+  double totalEvaluaciones = 0;
+  double cantidadEnNivel1 = 0;
+  double cantidadEnNivel2 = 0;
+  double cantidadEnNivel3 = 0;
+  double cantidadEnNivel4 = 0;
+  double cantidadEnNivel5 = 0;
+  int porcientoNivel1 = 0;
+  int porcientoNivel2 = 0;
+  int porcientoNivel3 = 0;
+  int porcientoNivel4 = 0;
+  int porcientoNivel5 = 0;
 
-//   void cargarData() async {
-//   loading = false;
-//   data = await cargarDataParaTotalPorServicio(servicio);
-//   setState(() {
-//     loading = true;
-//   });
-// }
+
+
+
+
+   
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +79,17 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
               ),
             ),
             Expanded(
-              child: Container(
-                child: _construirGraficoDistribucion(),
+              child: FutureBuilder <List<EvaluacioneServicioSeries>>(
+                future: cargarDataParaTotalPorServicio(proveedor.servicio),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                     return Container(
+                        child:_construirGraficoDistribucion(snapshot.data)
+                      );
+                  }else {
+                    return  Center(child: CircularProgressIndicator(),);
+                  }
+                }
               ),
             ),
           ],  
@@ -106,7 +124,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
           Container(
             height: 300,
             width: 500,
-            child: TotalesChart(data: data),
+            child: TotalesChart(data: data, afuera: true),
           ),
           Container(
             padding: EdgeInsets.only(left: 5,top: 5),
@@ -137,7 +155,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
     );
   }
 
-  Card _construirGraficoDistribucion() {
+  Card _construirGraficoDistribucion(List<EvaluacioneServicioSeries> data) {
     return Card(
       elevation: 5,
       child: Column(
@@ -147,7 +165,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
             children: [
               Container(
                 padding: EdgeInsets.only(left: 5,top: 5),
-                child: Text('RESULTADOS TOTALES', 
+                child: Text('RESULTADOS GENERALES', 
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black54,
@@ -162,14 +180,39 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
             children: [
               Expanded(
                 flex: 5,
-                child: Container(
-                  height: 300,
-                  width: 500,
-                  child: DonutPieChart.withSampleData(),
-                  
+                child: Column(
+                  children: [
+                    Container(
+                      height: 300,
+                      width: 500,
+                      child: TotalesChart(data: data, afuera: false),
+                      
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Cantidad de respuestas : ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black54,
+                              fontSize: 14.0
+                            ),
+                            ),
+                            Text('$totalEvaluaciones',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14.0
+                            ),
+                    )
+                  ],
                 ),
-              ),
-              Expanded(
+                SizedBox(height: 20,),
+              ],
+               
+            ),
+          ),
+           Expanded(
                 flex: 2,
                 child: Container(
                   child: Column(
@@ -177,13 +220,13 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
                     children: [
                       Icon(Icons.sentiment_very_satisfied, color:Colors.green, size: 90.0,),
                       SizedBox(height: 5,),
-                      Text('60%', style: TextStyle(
+                      Text('$porcientoNivel5%', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
                       ),),
                       SizedBox(height: 5,),
-                      Text('859', style: TextStyle(
+                      Text('$cantidadEnNivel5', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
@@ -200,13 +243,13 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
                     children: [
                       Icon(Icons.sentiment_satisfied, color:Colors.greenAccent, size: 90.0,),
                       SizedBox(height: 5,),
-                      Text('25%', style: TextStyle(
+                      Text('$porcientoNivel4%', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
                       ),),
                       SizedBox(height: 5,),
-                      Text('358', style: TextStyle(
+                      Text('$cantidadEnNivel4', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
@@ -223,13 +266,13 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
                     children: [
                       Icon(Icons.sentiment_neutral, color:Colors.yellow, size: 90.0,),
                       SizedBox(height: 5,),
-                      Text('8%', style: TextStyle(
+                      Text('$porcientoNivel3%', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
                       ),),
                       SizedBox(height: 5,),
-                      Text('115', style: TextStyle(
+                      Text('$cantidadEnNivel3', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
@@ -246,13 +289,13 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
                     children: [
                       Icon(Icons.sentiment_dissatisfied, color:Colors.orange, size: 90.0,),
                       SizedBox(height: 5,),
-                      Text('6%', style: TextStyle(
+                      Text('$porcientoNivel2%', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
                       ),),
                       SizedBox(height: 5,),
-                      Text('100', style: TextStyle(
+                      Text('$cantidadEnNivel2', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
@@ -269,13 +312,13 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
                     children: [
                       Icon(Icons.sentiment_very_dissatisfied, color:Colors.red, size: 90.0,),
                       SizedBox(height: 5,),
-                      Text('1%', style: TextStyle(
+                      Text('$porcientoNivel1%', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
                       ),),
                       SizedBox(height: 5,),
-                      Text('10', style: TextStyle(
+                      Text('$cantidadEnNivel1', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
                         fontSize: 30.0
@@ -352,12 +395,17 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
     Future <List<EvaluacioneServicioSeries>> cargarDataParaTotalPorServicio(String servicio ) async {
     
     List<EvaluacionModelo> evaluaciones = await evaluacion.cargarEvaluaciones();
-
-    int cantidadEnNivel1 = 0;
-    int cantidadEnNivel2 = 0;
-    int cantidadEnNivel3 = 0;
-    int cantidadEnNivel4 = 0;
-    int cantidadEnNivel5 = 0;
+    totalEvaluaciones = 0;
+    cantidadEnNivel1 = 0;
+    cantidadEnNivel2 = 0;
+    cantidadEnNivel3 = 0;
+    cantidadEnNivel4 = 0;
+    cantidadEnNivel5 = 0;
+    porcientoNivel1 = 0;
+    porcientoNivel2 = 0;
+    porcientoNivel3 = 0;
+    porcientoNivel4 = 0;
+    porcientoNivel5 = 0;
 
     for (var i = 0; i < evaluaciones.length; i++) {
       if(evaluaciones[i].servicio == servicio){
@@ -403,6 +451,13 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
       ),
     ];
     totalEvaluaciones = cantidadEnNivel1 + cantidadEnNivel2 + cantidadEnNivel3 + cantidadEnNivel4 + cantidadEnNivel5;
+
+    porcientoNivel1 = ((cantidadEnNivel1 / totalEvaluaciones )* 100).toInt();
+    porcientoNivel2 = ((cantidadEnNivel2 / totalEvaluaciones )* 100).toInt();
+    porcientoNivel3 = ((cantidadEnNivel3 / totalEvaluaciones )* 100).toInt();
+    porcientoNivel4 = ((cantidadEnNivel4 / totalEvaluaciones )* 100).toInt();
+    porcientoNivel5 = ((cantidadEnNivel5 / totalEvaluaciones )* 100).toInt();
+
     print(totalEvaluaciones);
 
     return data;

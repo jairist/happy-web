@@ -3,26 +3,46 @@ import 'package:flutter/material.dart';
 
 class TotalesChart extends StatelessWidget {
   final List<EvaluacioneServicioSeries> data;
+  final bool afuera;
 
-  TotalesChart({@required this.data});
+  TotalesChart({@required this.data, @required this.afuera});
 
   @override
   Widget build(BuildContext context) {
-    List<charts.Series<EvaluacioneServicioSeries, String>> series = [
-    charts.Series(
-      id: "Indices",
-      data: data,
-      domainFn: (EvaluacioneServicioSeries series, _) => series.nivel,
-      measureFn: (EvaluacioneServicioSeries series, _) => series.cantidad,
-      colorFn: (EvaluacioneServicioSeries series, _) => series.barColor,
-      displayName: 'Cantidad de votos por Nivel',
-      overlaySeries: true,
-      //Personalizacion 
-      labelAccessorFn: (EvaluacioneServicioSeries series, _) => 'NIvel # ${series.nivel} catidad: ${series.cantidad}',
-      
-      )
+     List<charts.Series<EvaluacioneServicioSeries, String>> series;
+    if(afuera){
+      series = [
+      charts.Series(
+        id: "Indices",
+        data: data,
+        domainFn: (EvaluacioneServicioSeries series, _) => series.nivel,
+        measureFn: (EvaluacioneServicioSeries series, _) => series.cantidad,
+        colorFn: (EvaluacioneServicioSeries series, _) => series.barColor,
+        displayName: 'Cantidad de votos por Nivel',
+        overlaySeries: true,
+        //Personalizacion 
+        labelAccessorFn: (EvaluacioneServicioSeries series, _) => 'NIvel # ${series.nivel} catidad: ${series.cantidad}',
+        
+        )
+  ];
+    }else{
+      series = [
+      charts.Series(
+        id: "Indices",
+        data: data,
+        domainFn: (EvaluacioneServicioSeries series, _) => series.nivel,
+        measureFn: (EvaluacioneServicioSeries series, _) => series.cantidad,
+        colorFn: (EvaluacioneServicioSeries series, _) => series.barColor,
+        displayName: 'Cantidad de votos por Nivel',
+        overlaySeries: false,
+        //Personalizacion 
+        labelAccessorFn: (EvaluacioneServicioSeries series, _) => '${series.nivel} : ${series.cantidad}',
+        
+        )
 
   ];
+    }
+    
   return new charts.PieChart(series,
         animate: true,
         // Configure the width of the pie slices to 60px. The remaining space in
@@ -45,7 +65,7 @@ class TotalesChart extends StatelessWidget {
 
 class EvaluacioneServicioSeries {
   final String nivel;
-  final int cantidad;
+  final double cantidad;
   final charts.Color barColor;
 
   EvaluacioneServicioSeries(
