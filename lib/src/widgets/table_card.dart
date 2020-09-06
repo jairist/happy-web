@@ -386,7 +386,7 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
             border: Border(bottom: BorderSide(width: 1, color: Colors.greenAccent))),
         child: Table(
           columnWidths: <int, TableColumnWidth>{
-            0: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
+            0: FixedColumnWidth((MediaQuery.of(context).size.width / 20)),
             1: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
             2: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
             3: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
@@ -465,7 +465,7 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
         // padding: EdgeInsets.all(32),
         child: Table(
             columnWidths: <int, TableColumnWidth>{
-              0: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
+              0: FixedColumnWidth((MediaQuery.of(context).size.width / 20)),
               1: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
               2: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
               3: FixedColumnWidth((MediaQuery.of(context).size.width / 6)),
@@ -522,30 +522,33 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                       ),
                     ),
                     Container(
-                      child: Center(
-                        child: FlatButton(
-                          color: Colors.lightGreen,
-                          textColor: Colors.white,
-                          disabledColor: Colors.grey,
-                          disabledTextColor: Colors.black,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: Colors.greenAccent,
-                          onPressed: () {
-                            Navigator.push(
-                              context, 
-                              MaterialPageRoute(
-                                builder: (context) => DetalleEvaluacionesProveedor(),
-                                settings: RouteSettings(
-                                  arguments: data[i], 
-                                )
-                              ),
-                              );
-                          },
-                          child: Text(
-                            "Ver detalles",
-                            style: TextStyle(fontSize: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          FlatButton(
+                            color: Colors.lightGreen,
+                            textColor: Colors.white,
+                            disabledColor: Colors.grey,
+                            disabledTextColor: Colors.black,
+                            padding: EdgeInsets.all(8.0),
+                            splashColor: Colors.greenAccent,
+                            onPressed: () {
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(
+                                  builder: (context) => DetalleEvaluacionesProveedor(),
+                                  settings: RouteSettings(
+                                    arguments: data[i], 
+                                  )
+                                ),
+                                );
+                            },
+                            child: Text(
+                              "Ver detalles",
+                              style: TextStyle(fontSize: 20.0),
+                            ),
                           ),
-                        ),
+                        ],
                       )
                     )
                   ]);
