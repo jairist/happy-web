@@ -4,6 +4,7 @@ import 'package:happy/src/models/proveedor.dart';
 import 'package:happy/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:happy/src/provider/evaluacion_provider.dart';
 import 'package:happy/src/provider/proveedores_provider.dart';
+import 'package:happy/src/utils/utils.dart';
 import 'package:happy/src/widgets/donut_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:happy/src/widgets/totales_piechart_widget.dart';
@@ -33,14 +34,6 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
   int porcientoNivel3 = 0;
   int porcientoNivel4 = 0;
   int porcientoNivel5 = 0;
-
-
-
-
-
-   
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,11 +88,42 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
           ],  
         ),
         Expanded(
-          child: Placeholder(),
+          child: _construirCajaComentarios(),
           ),
       ],
     );
   }
+
+  Widget _construirCajaComentarios(){
+    return Container(
+      height: double.infinity,
+      child: Column(
+
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'COMENTARIOS'
+              )
+
+            ],
+          ),
+          Container(
+            color: Colors.red,
+          )
+        ],
+      ),
+
+
+
+    );
+  }
+
+
+
+
 
   Card _construirGraficoTotales(List<EvaluacioneServicioSeries> data ) {
     return Card(
