@@ -88,42 +88,89 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
           ],  
         ),
         Expanded(
-          child: _construirCajaComentarios(),
+          
+          child: comentariosWidget(proveedor.servicio),
           ),
       ],
     );
   }
-
-  Widget _construirCajaComentarios(){
-    return Container(
-      height: double.infinity,
-      child: Column(
-
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'COMENTARIOS'
-              )
-
-            ],
-          ),
-          Container(
-            color: Colors.red,
-          )
-        ],
+    Widget comentariosWidget(String nombreServicio) {
+    return Card(
+      elevation: 5,
+      child: Container(
+        child: FutureBuilder(
+          builder: (context, projectSnap) {
+            if (projectSnap.connectionState == ConnectionState.none &&
+                projectSnap.hasData == null) {
+              print('project snapshot data is: ${projectSnap.data}');
+              return Container(
+                child: Text("Carge Vacio "),
+              );
+            }
+            return ListView.builder(
+              itemCount: projectSnap.data.length,
+              itemBuilder: (context, index) {
+                EvaluacionModelo comentarios = projectSnap.data[index];
+                return Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.sentiment_satisfied, color: Colors.green,),                   
+                      title: Text(comentarios.usuario),
+                      subtitle: Text(comentarios.descripcion, ),
+                      ),
+                      Divider( thickness: 1.0,),
+                    // Widget to display the list of project
+                  ],
+                );
+              },
+            );
+          },
+          future: evaluacion.cargarComentarios(nombreServicio),
+        ),
       ),
-
-
-
     );
   }
 
+  Card _construirCajaComentarios(String nombreServicio){
+    return Card(
+      elevation: 5,
+        child: Container(
+        height: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                padding: EdgeInsets.only(left: 5,top: 5),
+                  child: Text('COMENTARIOS RELEVANTES', 
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                    fontSize: 14.0
+                    
+                  ),
+                ),
+              ),
+              Container(
+              color: Colors.red,
+            )
+             
 
+              ],
+              
+            ),
+              Container(
+              color: Colors.red,
+            )
+          
+          ],
+        ),
 
-
+      ),
+    );
+  }
 
   Card _construirGraficoTotales(List<EvaluacioneServicioSeries> data ) {
     return Card(

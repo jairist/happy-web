@@ -58,6 +58,35 @@ class EvaluacionProvider{
     print('$decodedData');
     return evaluaciones;
   }
+    Future<List<EvaluacionModelo>> cargarComentarios(String nombreServicio) async {
+
+    final url  = '$_url/evaluaciones.json?auth=${_prefs.token}';
+    final resp = await http.get(url);
+
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+    final List<EvaluacionModelo> evaluaciones = new List();
+
+    if ( decodedData == null ) return [];
+
+    decodedData.forEach( ( id, prod ){
+
+      final prodTemp = EvaluacionModelo.fromJson(prod);
+      prodTemp.id = id;
+
+      if(prodTemp.servicio == nombreServicio){
+         evaluaciones.add( prodTemp );
+      }
+    });
+    print('$decodedData');
+    return evaluaciones;
+  }
+
+
+
+
+
+
+
 
   //   Future<List<EvaluacionModelo>> cargarTop10Evaluaciones() async {
 
