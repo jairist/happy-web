@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:happy/src/models/evaluacion_model.dart';
 import 'package:happy/src/models/proveedor.dart';
-import 'package:happy/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:happy/src/provider/evaluacion_provider.dart';
 import 'package:happy/src/provider/proveedores_provider.dart';
-import 'package:happy/src/utils/utils.dart';
-import 'package:happy/src/widgets/donut_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:happy/src/widgets/totales_piechart_widget.dart';
 
@@ -88,7 +85,6 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
           ],  
         ),
         Expanded(
-          
           child: comentariosWidget(proveedor.servicio),
           ),
       ],
@@ -96,44 +92,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
   }
     Widget comentariosWidget(String nombreServicio) {
     return Card(
-      elevation: 5,
-      child: Container(
-        child: FutureBuilder(
-          builder: (context, projectSnap) {
-            if (projectSnap.connectionState == ConnectionState.none &&
-                projectSnap.hasData == null) {
-              print('project snapshot data is: ${projectSnap.data}');
-              return Container(
-                child: Text("Carge Vacio "),
-              );
-            }
-            return ListView.builder(
-              itemCount: projectSnap.data.length,
-              itemBuilder: (context, index) {
-                EvaluacionModelo comentarios = projectSnap.data[index];
-                return Column(
-                  children: <Widget>[
-                    ListTile(
-                      leading: Icon(Icons.sentiment_satisfied, color: Colors.green,),                   
-                      title: Text(comentarios.usuario),
-                      subtitle: Text(comentarios.descripcion, ),
-                      ),
-                      Divider( thickness: 1.0,),
-                    // Widget to display the list of project
-                  ],
-                );
-              },
-            );
-          },
-          future: evaluacion.cargarComentarios(nombreServicio),
-        ),
-      ),
-    );
-  }
-
-  Card _construirCajaComentarios(String nombreServicio){
-    return Card(
-      elevation: 5,
+     elevation: 5,
         child: Container(
         height: double.infinity,
         child: Column(
@@ -143,27 +102,27 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                padding: EdgeInsets.only(left: 5,top: 5),
+                padding: EdgeInsets.only(left: 10,top: 10),
                   child: Text('COMENTARIOS RELEVANTES', 
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black54,
-                    fontSize: 14.0
+                    fontSize: 16.0,
+
                     
                   ),
                 ),
               ),
-              Container(
-              color: Colors.red,
-            )
-             
-
               ],
               
             ),
-              Container(
-              color: Colors.red,
-            )
+            Divider( thickness: 1.0, color: Colors.lightGreen,),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _cargarListaComentarios(nombreServicio),
+              )
+              ),
           
           ],
         ),
@@ -171,6 +130,84 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
       ),
     );
   }
+
+    FutureBuilder<List<EvaluacionModelo>> _cargarListaComentarios(String nombreServicio) {
+      return FutureBuilder(
+        builder: (context, projectSnap) {
+          if (projectSnap.connectionState == ConnectionState.none &&
+              projectSnap.hasData == null) {
+            return Container(
+              child: Text("Carge Vacio "),
+            );
+          }
+          return ListView.builder(
+            itemCount: projectSnap.data.length,
+            itemBuilder: (context, index) {
+              EvaluacionModelo comentarios = projectSnap.data[index];
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  
+                  ListTile(
+                    leading: _construirLeading(comentarios.puntuacion),                   
+                    title: Text(comentarios.usuario,  
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 16.0,
+                         
+                      ),
+                    ),
+                    subtitle: Container(
+                      padding: const EdgeInsets.all(4.0),
+                     
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                         color: Colors.grey[100],
+                      ),
+                      child: Text(comentarios.descripcion,   
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          ),
+                        ),
+                    ),
+                    ),
+                    //,
+                  // Widget to display the list of project
+                ],
+              );
+            },
+          );
+        },
+        future: evaluacion.cargarComentarios(nombreServicio),
+      );
+    }
+
+    Icon _construirLeading(double puntuacion){
+
+      if(puntuacion == 5){
+        return Icon(Icons.sentiment_very_satisfied, color: Colors.green, size: 60.30,);
+
+      }else if(puntuacion == 4){
+        return Icon(Icons.sentiment_satisfied, color: Colors.greenAccent, size: 60.30,);
+
+      }else if(puntuacion == 3){
+        return Icon(Icons.sentiment_neutral, color: Colors.yellow, size: 60.30,);
+
+      }else if(puntuacion == 2){
+        return Icon(Icons.sentiment_dissatisfied, color: Colors.orange, size: 60.30,);
+
+      }else if(puntuacion == 1){
+        return Icon(Icons.sentiment_very_dissatisfied, color: Colors.red, size: 60.30,);
+      }
+
+       return Icon(Icons.sentiment_neutral, color: Colors.grey, size: 60.30,);
+    } 
+
+    
+
 
   Card _construirGraficoTotales(List<EvaluacioneServicioSeries> data ) {
     return Card(
@@ -412,7 +449,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
       automaticallyImplyLeading:
           MediaQuery.of(context).size.width < 1300 ? true : false,
            leading: IconButton(
-            tooltip: 'Previous choice',
+            tooltip: 'Volver atras',
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).pop();

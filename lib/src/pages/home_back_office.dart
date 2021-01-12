@@ -91,7 +91,7 @@ class HomeScreenState extends State<HomeScreen>
             Container(
               margin: EdgeInsets.only(left: 32),
               child: Text(
-                "Happy! Admin Panel : ${_prefs.userName}  ",
+                "Happy! Admin Panel ",
                 style: TextStyle(
                   fontSize: 24,
                   color: Colors.white,
@@ -113,8 +113,8 @@ class HomeScreenState extends State<HomeScreen>
               ),
             
             ),
-            SizedBox(width: 32),
-            Container(child: Icon(Icons.account_circle)),
+            //SizedBox(width: 32),
+            //Container(child: Icon(Icons.account_circle)),
             SizedBox(width: 32),
             Container(
               child: IconButton(

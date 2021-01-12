@@ -55,7 +55,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverList(
+        SliverList(
             delegate: SliverChildListDelegate([
               Container(
                 margin: EdgeInsets.only(top: 12),
@@ -99,22 +99,6 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                           : Center(
                               child: CircularProgressIndicator(),
                             ),
-                    Container(
-                      child: Card(
-                      shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      elevation: 2,
-                      margin:
-                          EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 2,
-                          child: StackedBarChart.withSampleData(),
-                    ),
-                    ),
-                    )
-                    
      
                   ],
                 ),
