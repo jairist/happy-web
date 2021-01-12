@@ -483,8 +483,8 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
                 },
               ),          
             ),
-            SizedBox(width: 32),
-            Container(child: Icon(Icons.account_circle)),
+            //SizedBox(width: 32),
+            //Container(child: Icon(Icons.account_circle)),
             SizedBox(width: 32),
             Container(
               child: IconButton(
