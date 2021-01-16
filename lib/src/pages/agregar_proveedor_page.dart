@@ -155,6 +155,7 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
             errorText: snapshot.error
           ),
           onChanged: bloc.changeNombre,
+          
         ),
       );  
       },
@@ -189,7 +190,7 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
   Widget _crearServicio(AgregarProveedorBloc bloc){
 
     return StreamBuilder(
-      stream: bloc.servcioStream ,
+      stream: bloc.nombreStream ,
       // initialData: initialData ,
       builder: (BuildContext context, AsyncSnapshot snapshot){
         return Container(
@@ -204,7 +205,7 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
               counterText: snapshot.data,
               errorText: snapshot.error
             ),
-            onChanged: bloc.changeServicio,
+            onChanged: bloc.changeNombre,
           ),
           
         );
@@ -215,7 +216,7 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
   Widget _crearSeleccioarServicio(AgregarProveedorBloc bloc){
 
     return StreamBuilder(
-      stream: bloc.servcioStream ,
+      stream: bloc.nombreStream ,
       //initialData:   ,
       builder: (BuildContext context, AsyncSnapshot snapshot){
         return Container(
@@ -284,6 +285,12 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
 
   Widget _crearBoton(AgregarProveedorBloc bloc){
 
+    bool datos = true; 
+    if(bloc.nombre == '' || bloc.descripcion == ''){
+      datos = false;
+
+    }
+      
     return  StreamBuilder(
       
       stream: bloc.formValidStream,
@@ -304,7 +311,8 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
             elevation: 0.5,
             color: Colors.lightGreen,
             textColor: Colors.white,
-            onPressed: ()=> _agregarproveedor(bloc, context)
+            
+            onPressed: snapshot.hasData ? ()=> _agregarproveedor(bloc, context) : null 
             
         ),
         );
@@ -315,29 +323,31 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
   _agregarproveedor(AgregarProveedorBloc bloc, BuildContext context) async {
 
     // usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
-     
-    proveedor.id =_prefs.userServicioSeleccionado;
-    proveedor.nombre = bloc.nombre;
-    proveedor.descripcion = bloc.descripcion;
-    proveedor.servicio = _prefs.userServicioSeleccionado;//bloc.servcio;
 
-    print(proveedor.toString());
-    
-
-    bool info =   await proveedorProvider.crearProveedor(proveedor);
-
-     if(info){
-       utils.mostrarAlerta(context, "Proveedro agreado satisfactoriamente ");
-       //print("Revisa que seguardo la vaina manin ");
-      
-
+    if(bloc.nombre == '' || bloc.descripcion == ''){
+        utils.mostrarAlertaDeError(context, "Los campos Nombre y Descripción son requeridos"); 
+       // print("Nananina tingola ");
     }else {
-       utils.mostrarAlerta(context, "Esto como que nofuncionó manin");
-        print("Nananina tingola ");
-     }
 
-    // Navigator.pushReplacementNamed(context, 'login');
+      proveedor.id =_prefs.userServicioSeleccionado;
+      proveedor.nombre = bloc.nombre;
+      proveedor.descripcion = bloc.descripcion;
+      proveedor.servicio = _prefs.userServicioSeleccionado;//bloc.servcio;
 
+      //print(proveedor.toString());
+      bool info =   await proveedorProvider.crearProveedor(proveedor);
+
+      if(info){
+        utils.mostrarAlerta(context, "Proveedro agreado satisfactoriamente ");
+        //print("Revisa que seguardo la vaina manin ");
+      }else {
+        utils.mostrarAlertaDeError(context, "Error de Firebase");
+        
+      }
+
+      // Navigator.pushReplacementNamed(context, 'login');
+
+    }
   } 
 
   Widget _creaFondo(BuildContext context) {

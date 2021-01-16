@@ -72,7 +72,6 @@ class HomePage extends StatelessWidget {
       children: <Widget>[
         gradiente,
         Positioned(
-          
           top: -100,
           child: caja,
         )

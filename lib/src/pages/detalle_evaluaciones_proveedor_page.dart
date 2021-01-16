@@ -476,6 +476,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
             SizedBox(width: 32),
             Container(
               child: IconButton(
+                tooltip: 'Dashboard',
                 padding: EdgeInsets.all(0),
                 icon: Icon(Icons.web),
                 onPressed: (){
@@ -485,9 +486,9 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
             ),
             //SizedBox(width: 32),
             //Container(child: Icon(Icons.account_circle)),
-            SizedBox(width: 32),
             Container(
               child: IconButton(
+                tooltip: 'Salir',
                 padding: EdgeInsets.all(0),
                 icon: Icon(Icons.exit_to_app),
                 onPressed: () {

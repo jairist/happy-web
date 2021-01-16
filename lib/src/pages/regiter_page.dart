@@ -208,10 +208,8 @@ class RegisterPage extends StatelessWidget {
     if(info['ok']){
       _prefs.userName = bloc.userName.toString();
       Navigator.pushReplacementNamed(context, 'login');
-      
-
     }else {
-      utils.mostrarAlerta(context, info['mensaje']);
+      utils.mostrarAlertaDeError(context, info['mensaje']);
     }
 
     // Navigator.pushReplacementNamed(context, 'login');

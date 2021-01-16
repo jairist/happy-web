@@ -33,6 +33,30 @@ void mostrarAlerta(BuildContext context, String mensaje){
     }
   );
 }
+void mostrarAlertaDeError(BuildContext context, String mensaje){
+  String mensajeFormateado = '';
+  
+  if (mensaje == 'EMAIL_EXISTS'){
+    mensajeFormateado = 'Este correo eléctronico ya ha sido registrado.';
+
+  }
+
+  showDialog(
+    context: context,
+    builder: (context){
+      return AlertDialog(
+        title: Text('Validación'),
+        backgroundColor: Colors.redAccent,
+        content: Text(mensajeFormateado),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: ()=> Navigator.of(context).pop()),
+        ],
+      );
+    }
+  );
+}
 void mostrarAlertaSinPopResetear(BuildContext context){
   showDialog(
     context: context,
