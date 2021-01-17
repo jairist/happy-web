@@ -58,7 +58,7 @@ class EvaluacionProvider{
     print('$decodedData');
     return evaluaciones;
   }
-    Future<List<EvaluacionModelo>> cargarComentarios(String nombreServicio) async {
+    Future<List<EvaluacionModelo>> cargarComentarios(String nombreProveedor) async {
 
     final url  = '$_url/evaluaciones.json?auth=${_prefs.token}';
     final resp = await http.get(url);
@@ -73,7 +73,7 @@ class EvaluacionProvider{
       final prodTemp = EvaluacionModelo.fromJson(prod);
       prodTemp.id = id;
 
-      if(prodTemp.servicio == nombreServicio){
+      if(prodTemp.proveedor == nombreProveedor){
          evaluaciones.add( prodTemp );
       }
     });

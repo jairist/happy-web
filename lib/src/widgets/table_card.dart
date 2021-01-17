@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:happy/src/models/evaluacion_model.dart';
 import 'package:happy/src/models/global.dart';
 import 'package:happy/src/models/proveedor.dart';
+import 'package:happy/src/pages/agregar_proveedor_page.dart';
+import 'package:happy/src/pages/delete_proveedor_page.dart';
 import 'package:happy/src/pages/detalle_evaluaciones_proveedor_page.dart';
+import 'package:happy/src/pages/lista_proveedores_page.dart';
 import 'package:provider/provider.dart';
+
+
+
+
 
 
 Widget tablaProveedores(BuildContext context, List<ProveedorModelo> data) {
@@ -543,9 +550,54 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                                 ),
                                 );
                             },
-                            child: Text(
-                              "Ver detalles",
-                              style: TextStyle(fontSize: 20.0),
+                            //Ver Detalles
+                            child: Icon(Icons.pageview
+                            ),
+                          ),
+                          FlatButton(
+                            color: Colors.redAccent,
+                            textColor: Colors.white,
+                            disabledColor: Colors.grey,
+                            disabledTextColor: Colors.black,
+                            padding: EdgeInsets.all(8.0),
+                            splashColor: Colors.red,
+                            onPressed: () {
+                              // borrarProveedor(data[i].id);
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(
+                                  builder: (context) => DeleteProveedor(),
+                                  settings: RouteSettings(
+                                    arguments: data[i], 
+                                  )
+                                ),
+                                );
+                            },
+                            //Eliminar
+                            child: Icon( Icons.delete_outline,
+                            ),
+                          ),
+                          FlatButton(
+                            color: Colors.orangeAccent,
+                            textColor: Colors.white,
+                            disabledColor: Colors.grey,
+                            disabledTextColor: Colors.black,
+                            padding: EdgeInsets.all(8.0),
+                            splashColor: Colors.orange,
+                            onPressed: () {
+                              // borrarProveedor(data[i].id);
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(
+                                  builder: (context) => AgregarProveedorPage(),
+                                  settings: RouteSettings(
+                                    arguments: data[i], 
+                                  )
+                                ),
+                                );
+                            },
+                            //Eliminar
+                            child: Icon( Icons.mode_edit,
                             ),
                           ),
                         ],

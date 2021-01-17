@@ -90,9 +90,11 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                     //colocar tabla aqui cuando este lista. 
                     SizedBox(
                     height: 16,
+                  
                   ),
+                  Divider(),
                   loading
-                          ?tablaProveedores(
+                          ?tablaListaProveedores(
                               context,
                               proveedores,
                             )

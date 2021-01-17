@@ -33,6 +33,25 @@ void mostrarAlerta(BuildContext context, String mensaje){
     }
   );
 }
+void mostrarAlertaProveedorSinEvaluaciones(BuildContext context, String mensaje){
+  showDialog(
+    context: context,
+    builder: (context){
+      return AlertDialog(
+        title: Text('Información', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+        backgroundColor: Colors.greenAccent,
+        elevation: 5,
+        
+        content: Text(mensaje),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Volver', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300)),
+            onPressed: ()=> Navigator.of(context).pushNamed('home')),
+        ],
+      );
+    }
+  );
+}
 void mostrarAlertaDeError(BuildContext context, String mensaje){
   String mensajeFormateado = '';
   

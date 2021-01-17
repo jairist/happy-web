@@ -5,6 +5,7 @@ import 'package:happy/src/provider/evaluacion_provider.dart';
 import 'package:happy/src/provider/proveedores_provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:happy/src/widgets/totales_piechart_widget.dart';
+import 'package:happy/src/utils/utils.dart' as utils;
 
 class DetalleEvaluacionesProveedor extends StatefulWidget {
 
@@ -32,6 +33,21 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
   int porcientoNivel4 = 0;
   int porcientoNivel5 = 0;
 
+
+
+  @override
+  void initState() async{
+    // TODO: implement initState
+    final ProveedorModelo proveedor = ModalRoute.of(context).settings.arguments;
+    List<EvaluacionModelo> evaluaciones = await evaluacion.cargarComentarios(proveedor.nombre);
+
+    if(evaluaciones.isEmpty){
+     utils.mostrarAlertaProveedorSinEvaluaciones(context, 'El proveedor ${proveedor.nombre} no cuenta con evaluaciones disponibles, aún..');
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ProveedorModelo proveedor = ModalRoute.of(context).settings.arguments;
@@ -46,6 +62,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
     );
   }
 
+
   Widget _construirDetalle(BuildContext context, ProveedorModelo proveedor){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -56,28 +73,32 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
           children: [
             Expanded(
               child: FutureBuilder <List<EvaluacioneServicioSeries>>(
-                future: cargarDataParaTotalPorServicio(proveedor.servicio),
+                future: cargarDataParaTotalPorServicio(proveedor.nombre),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                     return Container(
+                  if (snapshot.connectionState == ConnectionState.none && snapshot.hasData == null) {
+                    
+                    return  Center(
+                      child: CircularProgressIndicator( backgroundColor: Colors.greenAccent,)
+                      ,);
+                    
+                  }else {
+                       return Container(
                         child:_construirGraficoTotales(snapshot.data)
                       );
-                  }else {
-                    return  Center(child: CircularProgressIndicator(),);
                   }
                 }
               ),
             ),
             Expanded(
               child: FutureBuilder <List<EvaluacioneServicioSeries>>(
-                future: cargarDataParaTotalPorServicio(proveedor.servicio),
+                future: cargarDataParaTotalPorServicio(proveedor.nombre),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                      return Container(
                         child:_construirGraficoDistribucion(snapshot.data)
                       );
                   }else {
-                    return  Center(child: CircularProgressIndicator(),);
+                    return  Center(child: CircularProgressIndicator( backgroundColor: Colors.greenAccent,),);
                   }
                 }
               ),
@@ -85,12 +106,12 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
           ],  
         ),
         Expanded(
-          child: comentariosWidget(proveedor.servicio),
+          child: comentariosWidget(proveedor.nombre),
           ),
       ],
     );
   }
-    Widget comentariosWidget(String nombreServicio) {
+    Widget comentariosWidget(String nombreProveedor) {
     return Card(
      elevation: 5,
         child: Container(
@@ -120,7 +141,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: _cargarListaComentarios(nombreServicio),
+                child: _cargarListaComentarios(nombreProveedor),
               )
               ),
           
@@ -501,7 +522,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
       );
   }
 
-    Future <List<EvaluacioneServicioSeries>> cargarDataParaTotalPorServicio(String servicio ) async {
+    Future <List<EvaluacioneServicioSeries>> cargarDataParaTotalPorServicio(String nombreProveedor ) async {
     
     List<EvaluacionModelo> evaluaciones = await evaluacion.cargarEvaluaciones();
     totalEvaluaciones = 0;
@@ -517,7 +538,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
     porcientoNivel5 = 0;
 
     for (var i = 0; i < evaluaciones.length; i++) {
-      if(evaluaciones[i].servicio == servicio){
+      if(evaluaciones[i].proveedor == nombreProveedor){
 
         if(evaluaciones[i].puntuacion == 1.0){
           cantidadEnNivel1 += 1;

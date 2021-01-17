@@ -49,10 +49,14 @@ class ProveedorProvider{
     final url = '$_url/proveedor/$id.json?auth=${_prefs.token}';
     print(url);
 
-    final resp = await http.delete(url);
+    final resp = await http.delete(url, 
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
 
     print(resp.statusCode);
 
-    return 1;
+    return resp.statusCode;
   }
 }
