@@ -5,6 +5,8 @@ import 'package:happy/src/models/proveedor.dart';
 import 'package:happy/src/pages/agregar_proveedor_page.dart';
 import 'package:happy/src/pages/delete_proveedor_page.dart';
 import 'package:happy/src/pages/detalle_evaluaciones_proveedor_page.dart';
+import 'package:happy/src/pages/editar_proveedor_page.dart';
+import 'package:happy/src/pages/home_alternativo.dart';
 import 'package:happy/src/pages/lista_proveedores_page.dart';
 import 'package:provider/provider.dart';
 
@@ -452,7 +454,7 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                Container(
                 padding: EdgeInsets.all(18),
                 child: Text(
-                  "Accion",
+                  "Acciones",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black,
@@ -482,7 +484,9 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
               return TableRow(
                   decoration: BoxDecoration(
                       border: Border(
-                          bottom: BorderSide(width: 0.6, color: Colors.grey))),
+                          bottom: BorderSide(width: 0.6, color: Colors.grey)
+                      )
+                  ),
                   children: [
                     Container(
                       padding: EdgeInsets.all(18),
@@ -529,78 +533,113 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                       ),
                     ),
                     Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          FlatButton(
-                            color: Colors.lightGreen,
-                            textColor: Colors.white,
-                            disabledColor: Colors.grey,
-                            disabledTextColor: Colors.black,
-                            padding: EdgeInsets.all(8.0),
-                            splashColor: Colors.greenAccent,
-                            onPressed: () {
-                              Navigator.push(
-                                context, 
-                                MaterialPageRoute(
-                                  builder: (context) => DetalleEvaluacionesProveedor(),
-                                  settings: RouteSettings(
-                                    arguments: data[i], 
-                                  )
+                      child: SafeArea(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: FlatButton(
+                                color: Colors.lightGreen,
+                                textColor: Colors.white,
+                                disabledColor: Colors.grey,
+                                disabledTextColor: Colors.black,
+                                padding: EdgeInsets.all(8.0),
+                                splashColor: Colors.greenAccent,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context, 
+                                    MaterialPageRoute(
+                                      builder: (context) => DetalleEvaluacionesProveedor(),
+                                      settings: RouteSettings(
+                                        arguments: data[i], 
+                                      )
+                                    ),
+                                    );
+                                },
+                                //Ver Reporte
+                                child: Icon(Icons.pie_chart_outlined
                                 ),
-                                );
-                            },
-                            //Ver Detalles
-                            child: Icon(Icons.pageview
+                              ),
                             ),
-                          ),
-                          FlatButton(
-                            color: Colors.redAccent,
-                            textColor: Colors.white,
-                            disabledColor: Colors.grey,
-                            disabledTextColor: Colors.black,
-                            padding: EdgeInsets.all(8.0),
-                            splashColor: Colors.red,
-                            onPressed: () {
-                              // borrarProveedor(data[i].id);
-                              Navigator.push(
-                                context, 
-                                MaterialPageRoute(
-                                  builder: (context) => DeleteProveedor(),
-                                  settings: RouteSettings(
-                                    arguments: data[i], 
-                                  )
+                            Flexible(
+                              child: FlatButton(
+                                color: Colors.orangeAccent,
+                                textColor: Colors.white,
+                                disabledColor: Colors.grey,
+                                disabledTextColor: Colors.black,
+                                padding: EdgeInsets.all(8.0),
+                                splashColor: Colors.orange,
+                                onPressed: () {
+                                  // borrarProveedor(data[i].id);
+                                  Navigator.push(
+                                    context, 
+                                    MaterialPageRoute(
+                                      builder: (context) => EditarProveedor(),
+                                      settings: RouteSettings(
+                                        arguments: data[i], 
+                                      )
+                                    ),
+                                    );
+                                },
+                                //Editar Proveedor
+                                child: Icon( Icons.mode_edit,
                                 ),
-                                );
-                            },
-                            //Eliminar
-                            child: Icon( Icons.delete_outline,
+                              ),
                             ),
-                          ),
-                          FlatButton(
-                            color: Colors.orangeAccent,
-                            textColor: Colors.white,
-                            disabledColor: Colors.grey,
-                            disabledTextColor: Colors.black,
-                            padding: EdgeInsets.all(8.0),
-                            splashColor: Colors.orange,
-                            onPressed: () {
-                              // borrarProveedor(data[i].id);
-                              Navigator.push(
-                                context, 
-                                MaterialPageRoute(
-                                  builder: (context) => AgregarProveedorPage(),
-                                  settings: RouteSettings(
-                                    arguments: data[i], 
-                                  )
+                            //Descargar reporte del proveedores 
+                            Flexible(
+                              child: FlatButton(
+                                color: Colors.blueAccent,
+                                textColor: Colors.white,
+                                disabledColor: Colors.grey,
+                                disabledTextColor: Colors.black,
+                                padding: EdgeInsets.all(8.0),
+                                splashColor: Colors.blue,
+                                onPressed: () {
+                                  // borrarProveedor(data[i].id);
+                                  Navigator.push(
+                                    context, 
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeAlternativo(),
+                                      settings: RouteSettings(
+                                        arguments: data[i], 
+                                      )
+                                    ),
+                                    );
+                                },
+                                //Descargar.
+                                child: Icon( Icons.file_download,
                                 ),
-                                );
-                            },
-                            //Eliminar
-                            child: Icon( Icons.mode_edit,
+                              ),
                             ),
-                          ),
-                        ],
+                            Flexible(
+                              child: FlatButton(
+                                color: Colors.redAccent,
+                                textColor: Colors.white,
+                                disabledColor: Colors.grey,
+                                disabledTextColor: Colors.black,
+                                padding: EdgeInsets.all(8.0),
+                                splashColor: Colors.red,
+                                onPressed: () {
+                                  // borrarProveedor(data[i].id);
+                                  Navigator.push(
+                                    context, 
+                                    MaterialPageRoute(
+                                      builder: (context) => DeleteProveedor(),
+                                      settings: RouteSettings(
+                                        arguments: data[i], 
+                                      )
+                                    ),
+                                    );
+                                },
+                                //Eliminar
+                                child: Icon( Icons.delete_outline,
+                                ),
+                              ),
+                            ),
+                            
+                          ],
+                        ),
                       )
                     )
                   ]);

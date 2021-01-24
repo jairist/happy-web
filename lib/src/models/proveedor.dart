@@ -10,12 +10,14 @@ String proveedorModeloToJson(ProveedorModelo data) => json.encode(data.toJson())
 
 class ProveedorModelo {
     String id;
+    String id_fb;
     String nombre;
     String descripcion;
     String servicio;
 
     ProveedorModelo({
         this.id = "TEST01",
+        this.id_fb = "TEST01",
         this.nombre = "",
         this.descripcion = '',
         this.servicio = "",
@@ -23,6 +25,7 @@ class ProveedorModelo {
 
     factory ProveedorModelo.fromJson(Map<String, dynamic> json) => ProveedorModelo(
         id              : json["id"],
+        id_fb           : json["id_fb"],
         nombre          : json["nombre"],
         descripcion     : json["Descripcion"],
         servicio        : json["servicio"],
@@ -30,6 +33,7 @@ class ProveedorModelo {
 
     Map<String, dynamic> toJson() => {
         "id"  :id,
+        "id_fb"  :id_fb,
         "nombre": nombre,
         "Descripcion": descripcion,
         "servicio"  :servicio,

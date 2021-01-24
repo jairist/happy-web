@@ -22,6 +22,18 @@ class ProveedorProvider{
     return true;
 
   }
+   Future<bool> editarProveedor(ProveedorModelo proveedorModelo) async{
+     final url = '$_url/proveedores/${proveedorModelo.id_fb}.json?auth=${_prefs.token}';
+    //https://happy-a6611.firebaseio.com/proveedores.json
+
+    final resp = await http.patch(url, body: proveedorModeloToJson(proveedorModelo));
+
+    final decodedData = json.decode(resp.body);
+    print('$decodedData');
+
+    return true;
+
+  }
   Future<List<ProveedorModelo>> cargarProveedores() async {
     final url = '$_url/proveedores.json?auth=${_prefs.token}';
 
@@ -37,7 +49,7 @@ class ProveedorProvider{
 
     decodeData.forEach((id, prov) { 
       final provTemp = ProveedorModelo.fromJson(prov);
-      provTemp.id = id;
+      provTemp.id_fb = id;
 
       proveedores.add(provTemp);
     });
@@ -46,7 +58,7 @@ class ProveedorProvider{
   }
   
   Future<int> borrarProveedor(String id ) async{
-    final url = '$_url/proveedor/$id.json?auth=${_prefs.token}';
+    final url = '$_url/proveedores/$id.json?auth=${_prefs.token}';
     print(url);
 
     final resp = await http.delete(url, 

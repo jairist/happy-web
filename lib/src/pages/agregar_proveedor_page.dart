@@ -190,7 +190,7 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
   Widget _crearServicio(AgregarProveedorBloc bloc){
 
     return StreamBuilder(
-      stream: bloc.nombreStream ,
+      stream: bloc.nombreStream,
       // initialData: initialData ,
       builder: (BuildContext context, AsyncSnapshot snapshot){
         return Container(
@@ -292,7 +292,6 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
     }
       
     return  StreamBuilder(
-      
       stream: bloc.formValidStream,
       // initialData: initialData ,
       builder: (BuildContext context, AsyncSnapshot snapshot){ 

@@ -19,18 +19,10 @@ Widget tickets(Color color, BuildContext context, IconData icon,
             children: <Widget>[
               Icon(
                 icon,
-                size: 36,
+                size: 40,
                 color: Colors.white,
+                
               ),
-              Text(
-                "Ver Detalle",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'HelveticaNeue',
-                ),
-              )
             ],
           ),
           Column(
@@ -39,22 +31,24 @@ Widget tickets(Color color, BuildContext context, IconData icon,
             children: <Widget>[
               Text(
                 ticketsNumber.toString(),
+                overflow: TextOverflow.clip,
                 style: TextStyle(
-                  fontSize: 34,
+                  fontSize: 45,
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   fontFamily: 'Raleway',
                 ),
               ),
               SizedBox(
-                height: 8,
+                height: 10,
               ),
               Text(
                 newCount,
+                overflow: TextOverflow.clip,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 18,
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   fontFamily: 'HelveticaNeue',
                 ),
               )

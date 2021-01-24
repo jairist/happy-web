@@ -23,7 +23,7 @@ class _DeleteProveedorState extends State<DeleteProveedor> {
     super.initState();
     // running on the web!
     final ProveedorModelo proveedor = ModalRoute.of(context).settings.arguments;
-    int code = await proveedorProvider.borrarProveedor(proveedor.id);
+    int code = await proveedorProvider.borrarProveedor(proveedor.id_fb);
     utils.mostrarAlerta(context, "Proveedor Eliminado codigo $code de respuesta :  ${proveedor.id}");
     new Future.delayed(const Duration(seconds: 5), ()=> Navigator.of(context).pushNamed('home'));
   }
