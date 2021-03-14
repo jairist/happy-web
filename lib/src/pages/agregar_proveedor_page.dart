@@ -34,10 +34,19 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
  
   @override
   void initState() {
-    _dropdownMenuItems = buildDropdownMenuItems(_beneficios);
-    _beneficioSeleccionado = _dropdownMenuItems[0].value;
+    
     super.initState();
   }
+
+  @override
+  void didChangeDependencies()  {
+    _dropdownMenuItems = buildDropdownMenuItems(_beneficios);
+    _beneficioSeleccionado = _dropdownMenuItems[0].value;
+    super.didChangeDependencies();
+    
+  }
+
+
  
   List<DropdownMenuItem<Servicio>> buildDropdownMenuItems(List beneficios) {
     List<DropdownMenuItem<Servicio>> items = List();
@@ -117,21 +126,23 @@ class _AgregarProveedorPageState extends State<AgregarProveedorPage> {
               )
             ]
           ),
-          child: Column(
-          
-            children: <Widget>[
-              //Text ('Ingreso',style: TextStyle(fontSize: 20.0),),
-              SizedBox(height: 20.0,),
-              _crearNombreProveedor(bloc),
-              SizedBox(height: 20.0,),
-              _crearDescripcion(bloc),
-              SizedBox(height: 10.0,),
-              //_crearServicio(bloc),
-              SizedBox(height: 10.0,),
-              _crearSeleccioarServicio(bloc),
-              SizedBox(height: 30.0,),
-              _crearBoton(bloc)
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+            
+              children: <Widget>[
+                //Text ('Ingreso',style: TextStyle(fontSize: 20.0),),
+                SizedBox(height: 20.0,),
+                _crearNombreProveedor(bloc),
+                SizedBox(height: 20.0,),
+                _crearDescripcion(bloc),
+                SizedBox(height: 10.0,),
+                //_crearServicio(bloc),
+                SizedBox(height: 10.0,),
+                _crearSeleccioarServicio(bloc),
+                SizedBox(height: 30.0,),
+                _crearBoton(bloc)
+              ],
+            ),
           ),
         );
   }

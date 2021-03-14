@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:happy/src/models/global.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 
 class GraciasPage extends StatefulWidget {
@@ -18,17 +17,9 @@ class _GraciasPageState extends State<GraciasPage> {
   @override
   void initState(){
     super.initState();
-    if (kIsWeb) {
-    // running on the web!
-      new Future.delayed(const Duration(seconds: 2), ()=> Navigator.of(context).pushNamed('login'));
-      } else {
-    // NOT running on the web! You can check for additional platforms here.
-      new Future.delayed(const Duration(seconds: 5), ()=> Navigator.of(context).pushNamed('home'));
-      }
+    new Future.delayed(const Duration(seconds: 2), ()=> Navigator.of(context).pushNamed('login'));
     
   }
- 
-
 
   @override
   Widget build(BuildContext context) {

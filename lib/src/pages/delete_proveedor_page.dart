@@ -19,13 +19,20 @@ class _DeleteProveedorState extends State<DeleteProveedor> {
 
 
  @override
-  void initState() async{
+  void initState(){
     super.initState();
     // running on the web!
+  }
+
+
+  @override
+  void didChangeDependencies() async {
     final ProveedorModelo proveedor = ModalRoute.of(context).settings.arguments;
     int code = await proveedorProvider.borrarProveedor(proveedor.id_fb);
     utils.mostrarAlerta(context, "Proveedor Eliminado codigo $code de respuesta :  ${proveedor.id}");
     new Future.delayed(const Duration(seconds: 5), ()=> Navigator.of(context).pushNamed('home'));
+    super.didChangeDependencies();
+    
   }
   
   @override
@@ -65,12 +72,14 @@ class _DeleteProveedorState extends State<DeleteProveedor> {
     );
     final nombreUsuario = Container(
       padding: EdgeInsets.only(top: 80.0),
-      child: Column(children: <Widget>[
-        SizedBox(height: size.height * 0.2, width: double.infinity,),
-        Icon(Icons.delete_forever, color: Colors.white, size: 80.0,),
-        // SizedBox(height: size.height * 0.2, width: double.infinity,),
-        Text('Registro Eliminado', style: TextStyle(color: Colors.white, fontSize: 30.0, fontWeight: FontWeight.bold),)
-      ],),
+      child: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          SizedBox(height: size.height * 0.2, width: double.infinity,),
+          Icon(Icons.delete_forever, color: Colors.white, size: 80.0,),
+          // SizedBox(height: size.height * 0.2, width: double.infinity,),
+          Text('Registro Eliminado', style: TextStyle(color: Colors.white, fontSize: 30.0, fontWeight: FontWeight.bold),)
+        ],),
+      ),
     );
     
     return Stack(

@@ -18,15 +18,17 @@ class HomeScreenState extends State<HomeScreen>
   TabController tabController;
   int active = 0;
   final _prefs = new PreferenciasUsuario();
+  
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     tabController = new TabController(vsync: this, length: 5, initialIndex: 0)
       ..addListener(() {
         setState(() {
           active = tabController.index;
         });
       });
+    
   }
 
   @override
@@ -146,7 +148,8 @@ class HomeScreenState extends State<HomeScreen>
 
   FlatButton createMenuOption(bool drawerStatus, int index, String nombreOpcion, Icon icon) {
     return FlatButton(
-        color: tabController.index == index ? Colors.grey[100] : Colors.white,
+        //color: tabController.index == index ? Colors.grey[100] : Colors.white,
+
         onPressed: () {
           print(tabController.index);
           tabController.animateTo(index);

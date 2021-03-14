@@ -34,7 +34,12 @@ class _EditarProveedorState extends State<EditarProveedor> {
 
    @override
   void initState() {
-    int temp = 0;
+  
+    super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+      int temp = 0;
     int posicion = 0;
     
     final ProveedorModelo proveedor = ModalRoute.of(context).settings.arguments;
@@ -49,8 +54,12 @@ class _EditarProveedorState extends State<EditarProveedor> {
       }
 
     _beneficioSeleccionado = _dropdownMenuItems[posicion].value;
-    super.initState();
+    super.didChangeDependencies();
+    
+
   }
+
+
   List<DropdownMenuItem<Servicio>> buildDropdownMenuItems(List beneficios) {
     
     List<DropdownMenuItem<Servicio>> items = List();

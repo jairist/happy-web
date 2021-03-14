@@ -15,7 +15,6 @@ import 'package:happy/src/pages/regiter_page.dart';
 import 'package:happy/src/pages/resetear_clave.dart';
 import 'package:happy/src/pages/splash_page.dart';
 import 'package:happy/src/preferencias_usuario/preferencias_usuario.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'src/models/global.dart';
 
@@ -35,19 +34,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final prefs = new PreferenciasUsuario();
-    print(prefs.token);
-    
-    // SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle.light.copyWith(
-    //   statusBarColor: Colors.transparent
-    // )); 
-    
-    if (kIsWeb) {
-    // running on the web!
-      return buildProviderWeb();
-      } else {
-    // NOT running on the web! You can check for additional platforms here.
-      return buildProviderApp();
-      }
+    print(prefs.token); 
+    return buildProviderWeb();
+
     
   }
 
@@ -78,29 +67,4 @@ class MyApp extends StatelessWidget {
   ),
   );
   }
-
-  Provider buildProviderApp() {
-    return Provider(
-    child: MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'Happy!',
-    initialRoute: 'login',
-    routes: {
-      // 'basico' : (BuildContext context) => BasicoPage(), 
-      'login'     : (BuildContext context) => LoginPage(), 
-      //'registro'  : (BuildContext context) => RegisterPage(), 
-      'home'      : (BuildContext context) => HomeAlternativo(), 
-      //'home'      : (BuildContext context) => HomeScreen(),  
-      'evaluar'   : (BuildContext context) => EvaluacionPage(), 
-      'gracias'   : (BuildContext context) => GraciasPage(), 
-    },
-    theme: ThemeData(
-      primaryColor: lightGreen,
-      fontFamily: 'HelveticaNeue',
-      
-    ),
-  ),
-  );
-  }
-
 }

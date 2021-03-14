@@ -4,6 +4,7 @@ class CommentModel {
   final String user;
   final String comment;
   //final DateTime time;
+  //TO DO: final Icon  imagen;
 
   const CommentModel({
     @required this.user,
