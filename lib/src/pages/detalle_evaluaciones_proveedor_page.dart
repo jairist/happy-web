@@ -6,6 +6,7 @@ import 'package:happy/src/provider/proveedores_provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:happy/src/widgets/totales_piechart_widget.dart';
 import 'package:happy/src/utils/utils.dart' as utils;
+import 'package:intl/intl.dart';
 
 class DetalleEvaluacionesProveedor extends StatefulWidget {
 
@@ -33,7 +34,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
   int porcientoNivel4 = 0;
   int porcientoNivel5 = 0;
 
-
+  ScrollController _controller;
 
   @override
   void initState(){
@@ -43,6 +44,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
   @override
   void didChangeDependencies() async{
    // TODO: implement initState
+   _controller = ScrollController();
     final ProveedorModelo proveedor = ModalRoute.of(context).settings.arguments;
     List<EvaluacionModelo> evaluaciones = await evaluacion.cargarComentarios(proveedor.nombre);
 
@@ -54,109 +56,128 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
     
   }
   
-
+  // EN EL BODY VA UN SCROLL LIST
   @override
   Widget build(BuildContext context) {
     final ProveedorModelo proveedor = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: buildAppBar(context, proveedor),
-      body: Container(
-        margin: EdgeInsets.only(top: 20),
-        padding: EdgeInsets.all(20),
-        child: _construirDetalle(context, proveedor),
-      ),
+      body: Stack(
+        children: [
+          Container(
+            child: SingleChildScrollView(
+              controller: _controller,
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    width: MediaQuery.of(context).size.width,
+                    //color: Colors.black,
+                    child: _construirDetalle(context, proveedor),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    //olor: Colors.red,
+                    child: comentariosWidget(proveedor.nombre),
+                    
+                  ),
+                ],
+              ),
+
+              ),
+          ),
+        ],
+      ) 
     );
   }
 
 
   Widget _construirDetalle(BuildContext context, ProveedorModelo proveedor){
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-       //crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: FutureBuilder <List<EvaluacioneServicioSeries>>(
-                  future: cargarDataParaTotalPorServicio(proveedor.nombre),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.none && snapshot.hasData == null) {
-                      
-                      return  Center(
-                        child: CircularProgressIndicator( backgroundColor: Colors.greenAccent,)
-                        ,);
-                      
-                    }else {
-                         return Container(
-                          child:_construirGraficoTotales(snapshot.data)
-                        );
-                    }
-                  }
-                ),
-              ),
-              Expanded(
-                child: FutureBuilder <List<EvaluacioneServicioSeries>>(
-                  future: cargarDataParaTotalPorServicio(proveedor.nombre),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+     //crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: FutureBuilder <List<EvaluacioneServicioSeries>>(
+                future: cargarDataParaTotalPorServicio(proveedor.nombre),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none && snapshot.hasData == null) {
+                    
+                    return  Center(
+                      child: CircularProgressIndicator( backgroundColor: Colors.greenAccent,)
+                      ,);
+                    
+                  }else {
                        return Container(
-                          child:_construirGraficoDistribucion(snapshot.data)
-                        );
-                    }else {
-                      return  Center(child: CircularProgressIndicator( backgroundColor: Colors.greenAccent,),);
-                    }
+                        child:_construirGraficoTotales(snapshot.data)
+                      );
                   }
-                ),
+                }
               ),
-            ],  
-          ),
-          Expanded(
-            child: comentariosWidget(proveedor.nombre),
             ),
-        ],
-      ),
+            Expanded(
+              child: FutureBuilder <List<EvaluacioneServicioSeries>>(
+                future: cargarDataParaTotalPorServicio(proveedor.nombre),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                     return Container(
+                        child:_construirGraficoDistribucion(snapshot.data)
+                      );
+                  }else {
+                    return  Center(child: CircularProgressIndicator( backgroundColor: Colors.greenAccent,),);
+                  }
+                }
+              ),
+            ),
+          ],  
+        ),
+      ],
+      
     );
+    
   }
-    Widget comentariosWidget(String nombreProveedor) {
-    return Card(
+  Widget comentariosWidget(String nombreProveedor) {
+    return Card( 
      elevation: 5,
         child: Container(
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                  padding: EdgeInsets.only(left: 10,top: 10),
-                    child: Text('COMENTARIOS RELEVANTES', 
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54,
-                      fontSize: 16.0,
-
-                      
-                    ),
+         
+          width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                padding: EdgeInsets.only(left: 10,top: 10),
+                  child: Text('COMENTARIOS RELEVANTES', 
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                    fontSize: 16.0,             
                   ),
                 ),
-                ],
-                
               ),
-              Divider( thickness: 1.0, color: Colors.lightGreen,),
-              Expanded(
+              ],
+              
+            ),
+            Divider( thickness: 1.0, color: Colors.lightGreen,),
+            Expanded(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: _cargarListaComentarios(nombreProveedor),
-                )
                 ),
-            
-            ],
-          ),
+              )
+              ),
+          
+          ],
         ),
 
       ),
@@ -164,6 +185,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
   }
 
     FutureBuilder<List<EvaluacionModelo>> _cargarListaComentarios(String nombreServicio) {
+      
       return FutureBuilder(
         builder: (context, projectSnap) {
           if (projectSnap.connectionState == ConnectionState.none &&
@@ -172,56 +194,71 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
               child: Text("Carge Vacio "),
             );
           }
-          return ListView.builder(
+          return new ListView.builder(
+
             itemCount: projectSnap.data.length,
             itemBuilder: (context, index) {
               EvaluacionModelo comentarios = projectSnap.data[index];
-              return SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
+              //String dateFormate = DateFormat().format(DateTime.parse());
+              
+              return Column(
+                
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ListTile(
                     
-                    ListTile(
-                      leading: _construirLeading(comentarios.puntuacion),                   
-                      title: Text(comentarios.usuario,  
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 16.0,
-                           
-                        ),
+                    leading: _construirLeading(comentarios.puntuacion),                   
+                    title: Text(" ${comentarios.usuario}  - ${comentarios.fecha}",  
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black45,
+                        fontSize: 14.0,
+                         
                       ),
-                      subtitle: Container(
-                        padding: const EdgeInsets.all(4.0),
-                       
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                           color: Colors.grey[100],
-                        ),
-                        child: Container(
+                    ),
+                    subtitle: Container(
+                      padding: const EdgeInsets.all(4.0),
+                     
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                         color: Colors.grey[100],
+                      ),
+                      child: Column(
+                        //mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container( 
+                            alignment: Alignment.bottomLeft,                          
                           child: Text(comentarios.descripcion, 
-                             
-                            style: TextStyle(
+                              style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
-                              fontSize: 18.0,
+                              fontSize: 18.0,                           
                               ),
-                              
-                            ),
-                            
+                            ),  
                         ),
-                        
-                        
-                      ),
-                      
-                      ),
-                      Container(
-                        child: Image.network(comentarios.fotoUrl),
+
+                        //colocar fecha 
+                        comentarios.fotoUrl != null ? Container(
+                          alignment: Alignment.topLeft,
+                        child: FadeInImage(
+                          alignment: Alignment.topLeft,
+                          
+                          image: NetworkImage(comentarios.fotoUrl),
+                          placeholder: AssetImage('assets/cargando.gif'),
+                          height: 250.0,
+                          width: 400.0,
+                          fit:BoxFit.fitHeight ,
+
+                        ),            
                       )
-                      //,
-                    // Widget to display the list of project
-                  ],
-                ),
+                      :Container(),
+                        ]
+                      ),
+                    ),
+
+                    
+                    ),
+                ],
               );
             },
           );
@@ -251,9 +288,6 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
        return Icon(Icons.sentiment_neutral, color: Colors.grey, size: 60.30,);
     } 
 
-    
-
-
   Card _construirGraficoTotales(List<EvaluacioneServicioSeries> data ) {
     return Card(
       elevation: 5,
@@ -269,8 +303,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black54,
-                    fontSize: 14.0
-                    
+                    fontSize: 14.0  
                   ),),
                 )
               ],
@@ -313,200 +346,185 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
   Card _construirGraficoDistribucion(List<EvaluacioneServicioSeries> data) {
     return Card(
       elevation: 5,
-      child: SingleChildScrollView(
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(left: 5,top: 5),
-                  child: Text('RESULTADOS GENERALES', 
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                    fontSize: 14.0
-                    
-                  ),),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 300,
-                          width: 500,
-                          child: TotalesChart(data: data, afuera: false),
-                          
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Cantidad de respuestas : ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black54,
-                                  fontSize: 14.0
-                                ),
-                                ),
-                                Text('$totalEvaluaciones',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 14.0
-                                ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 20,),
-                ],
-                 
-              ),
-                  ),
-            ),
-             Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.sentiment_very_satisfied, color:Colors.green, size: 90.0,),
-                          SizedBox(height: 5,),
-                          Text('$porcientoNivel5%', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                          SizedBox(height: 5,),
-                          Text('$cantidadEnNivel5', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-               Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.sentiment_satisfied, color:Colors.greenAccent, size: 90.0,),
-                          SizedBox(height: 5,),
-                          Text('$porcientoNivel4%', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                          SizedBox(height: 5,),
-                          Text('$cantidadEnNivel4', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.sentiment_neutral, color:Colors.yellow, size: 90.0,),
-                          SizedBox(height: 5,),
-                          Text('$porcientoNivel3%', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                          SizedBox(height: 5,),
-                          Text('$cantidadEnNivel3', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.sentiment_dissatisfied, color:Colors.orange, size: 90.0,),
-                          SizedBox(height: 5,),
-                          Text('$porcientoNivel2%', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                          SizedBox(height: 5,),
-                          Text('$cantidadEnNivel2', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.sentiment_very_dissatisfied, color:Colors.red, size: 90.0,),
-                          SizedBox(height: 5,),
-                          Text('$porcientoNivel1%', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                          SizedBox(height: 5,),
-                          Text('$cantidadEnNivel1', style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontSize: 30.0
-                          ),),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+      child: Column(
+        //mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.only(left: 5,top: 5),
+                child: Text('RESULTADOS GENERALES', 
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                  fontSize: 14.0
                   
+                ),),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 5,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 300,
+                      width: 500,
+                      child: TotalesChart(data: data, afuera: false),
+                      
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Cantidad de respuestas : ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black54,
+                              fontSize: 14.0
+                            ),
+                            ),
+                            Text('$totalEvaluaciones',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 14.0
+                            ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 20,),
               ],
+               
             ),
-          ],
-        ),
+          ),
+           Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.sentiment_very_satisfied, color:Colors.green, size: 90.0,),
+                      SizedBox(height: 5,),
+                      Text('$porcientoNivel5%', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                      SizedBox(height: 5,),
+                      Text('$cantidadEnNivel5', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                    ],
+                  ),
+                ),
+              ),
+             Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.sentiment_satisfied, color:Colors.greenAccent, size: 90.0,),
+                      SizedBox(height: 5,),
+                      Text('$porcientoNivel4%', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                      SizedBox(height: 5,),
+                      Text('$cantidadEnNivel4', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.sentiment_neutral, color:Colors.yellow, size: 90.0,),
+                      SizedBox(height: 5,),
+                      Text('$porcientoNivel3%', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                      SizedBox(height: 5,),
+                      Text('$cantidadEnNivel3', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.sentiment_dissatisfied, color:Colors.orange, size: 90.0,),
+                      SizedBox(height: 5,),
+                      Text('$porcientoNivel2%', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                      SizedBox(height: 5,),
+                      Text('$cantidadEnNivel2', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.sentiment_very_dissatisfied, color:Colors.red, size: 90.0,),
+                      SizedBox(height: 5,),
+                      Text('$porcientoNivel1%', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                      SizedBox(height: 5,),
+                      Text('$cantidadEnNivel1', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 30.0
+                      ),),
+                    ],
+                  ),
+                ),
+              ),
+                
+            ],
+          ),
+        ],
       ),
     );
   }
 
     AppBar buildAppBar(BuildContext context, ProveedorModelo proveedor) {
     return AppBar(
-
       automaticallyImplyLeading:
           MediaQuery.of(context).size.width < 1300 ? true : false,
            leading: IconButton(

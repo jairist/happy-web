@@ -11,10 +11,6 @@ import 'package:happy/src/pages/lista_proveedores_page.dart';
 import 'package:provider/provider.dart';
 
 
-
-
-
-
 Widget tablaProveedores(BuildContext context, List<ProveedorModelo> data) {
   //proveedores = proveedorProvider.cargarProveedores();
   int cantidad;
@@ -538,13 +534,16 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Flexible(
-                              child: FlatButton(
-                                color: Colors.lightGreen,
-                                textColor: Colors.white,
-                                disabledColor: Colors.grey,
-                                disabledTextColor: Colors.black,
-                                padding: EdgeInsets.all(8.0),
-                                splashColor: Colors.greenAccent,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+
+                                      primary: Colors.lightGreen,
+                                      onSurface: Colors.orangeAccent,
+                                      //padding: EdgeInsets.all(8.8),
+                                      //elevation: 2.0
+                                      
+                                      
+                                      ),
                                 onPressed: () {
                                   Navigator.push(
                                     context, 
@@ -562,13 +561,18 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                               ),
                             ),
                             Flexible(
-                              child: FlatButton(
-                                color: Colors.orangeAccent,
-                                textColor: Colors.white,
-                                disabledColor: Colors.grey,
-                                disabledTextColor: Colors.black,
-                                padding: EdgeInsets.all(8.0),
-                                splashColor: Colors.orange,
+                              child: TextButton(
+                                //color: Colors.blueAccent,
+                                style: TextButton.styleFrom(
+
+                                      primary: Colors.orangeAccent,
+                                      onSurface: Colors.orangeAccent,
+                                      //padding: EdgeInsets.all(8.8),
+                                      //elevation: 2.0
+                                      
+                                      
+                                      ),
+
                                 onPressed: () {
                                   // borrarProveedor(data[i].id);
                                   Navigator.push(
@@ -588,13 +592,14 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                             ),
                             //Descargar reporte del proveedores 
                             Flexible(
-                              child: FlatButton(
-                                color: Colors.blueAccent,
-                                textColor: Colors.white,
-                                disabledColor: Colors.grey,
-                                disabledTextColor: Colors.black,
-                                padding: EdgeInsets.all(8.0),
-                                splashColor: Colors.blue,
+                              child: TextButton(
+                                
+                                //color: Colors.blueAccent,
+                                style: TextButton.styleFrom(
+                                      primary: Colors.blue,
+                                      onSurface: Colors.blueAccent,
+                                      
+                                      ),
                                 onPressed: () {
                                   // borrarProveedor(data[i].id);
                                   Navigator.push(
@@ -613,13 +618,14 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                               ),
                             ),
                             Flexible(
-                              child: FlatButton(
-                                color: Colors.redAccent,
-                                textColor: Colors.white,
-                                disabledColor: Colors.grey,
-                                disabledTextColor: Colors.black,
-                                padding: EdgeInsets.all(8.0),
-                                splashColor: Colors.red,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+
+                                      primary: Colors.redAccent,
+                                      onSurface: Colors.red,
+                                      //padding: EdgeInsets.all(8.8),
+                                      //elevation: 2.0
+                                      ),
                                 onPressed: () {
                                   // borrarProveedor(data[i].id);
                                   Navigator.push(

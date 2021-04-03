@@ -16,6 +16,7 @@ class EvaluacionModelo {
     String descripcion;
     String fotoUrl;
     String proveedor;
+    String fecha;
 
     EvaluacionModelo({
         this.id,
@@ -25,6 +26,7 @@ class EvaluacionModelo {
         this.descripcion = '',
         this.fotoUrl,
         this.proveedor = '',
+        this.fecha = ''
     });
 
     factory EvaluacionModelo.fromJson(Map<String, dynamic> json) => EvaluacionModelo(
@@ -34,7 +36,8 @@ class EvaluacionModelo {
         puntuacion  : json["puntuacion"],
         descripcion : json["Descripcion"],
         fotoUrl     : json["fotoUrl"],
-        proveedor   : json["proveedor"] 
+        proveedor   : json["proveedor"], 
+        fecha: json["fecha"] == null ? null : json["fecha"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -44,6 +47,8 @@ class EvaluacionModelo {
         "puntuacion": puntuacion,
         "Descripcion": descripcion,
         "fotoUrl": fotoUrl,
-        "proveedor": proveedor
+        "proveedor": proveedor,
+        "fecha": fecha == null ? null : fecha,
     };
 }
+        

@@ -19,24 +19,43 @@ import 'package:happy/src/preferencias_usuario/preferencias_usuario.dart';
 import 'src/models/global.dart';
 
   Future<void> main() async { 
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+    bool inDebug = false;
+    assert(() { inDebug = true; return true; }());
+    // In debug mode, use the normal error widget which shows
+    // the error message:
+    if (inDebug)
+      return ErrorWidget(details.exception);
+    // In release builds, show a yellow-on-blue message instead:
+    return Container(
+      alignment: Alignment.center,
+      child: Text(
+        'Cargando...',
+        style: TextStyle(
+          color: Colors.greenAccent,
+          fontSize: 18.0
+          
+          ),
+        textDirection: TextDirection.ltr,
+      ),
+    );
+  };
 
     WidgetsFlutterBinding.ensureInitialized();
     final prefs = new PreferenciasUsuario();
     await prefs.initPrefs();
+
     
     runApp(MyApp());
   }
  
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-
-
   @override
   Widget build(BuildContext context) {
     final prefs = new PreferenciasUsuario();
     print(prefs.token); 
     return buildProviderWeb();
-
     
   }
 

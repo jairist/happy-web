@@ -25,7 +25,7 @@ void mostrarAlerta(BuildContext context, String mensaje){
         backgroundColor: Colors.greenAccent,
         content: Text(mensaje),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('OK'),
             onPressed: ()=> Navigator.of(context).pop()),
         ],
@@ -42,7 +42,7 @@ void mostrarAlertaParaEditarProveedor(BuildContext context, String mensaje){
         backgroundColor: Colors.greenAccent,
         content: Text(mensaje, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300)),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('OK'),
             onPressed: ()=> Navigator.of(context).pushNamed('home')),
         ],
@@ -61,7 +61,7 @@ void mostrarAlertaProveedorSinEvaluaciones(BuildContext context, String mensaje)
         
         content: Text(mensaje),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('Volver', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300)),
             onPressed: ()=> Navigator.of(context).pushNamed('home')),
         ],
@@ -85,7 +85,7 @@ void mostrarAlertaDeError(BuildContext context, String mensaje){
         backgroundColor: Colors.redAccent,
         content: Text(mensajeFormateado),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('OK'),
             onPressed: ()=> Navigator.of(context).pop()),
         ],
@@ -102,7 +102,7 @@ void mostrarAlertaSinPopResetear(BuildContext context){
         backgroundColor: Colors.greenAccent,
         content: Text('El campo email no puede estar vacio, por favor introduzca su email para enviar el correo de verificación '),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('OK'),
             onPressed: ()=> Navigator.of(context).pushNamed('resetear')),
         ],
@@ -120,7 +120,7 @@ void mostrarAlertaSinPopResetear(BuildContext context){
         backgroundColor: Colors.greenAccent,
         content: Text('Usuario no registrador por favor registrate para acceder, es super fácil'),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('REGISTRARME'),
             onPressed: ()=> Navigator.pushNamed(context, 'registro')),
         ],
@@ -137,7 +137,7 @@ void mostrarAlertaSinPopResetear(BuildContext context){
         backgroundColor: Colors.greenAccent,
         content: Text('Un correo electronico de recuperación ha sido enviado a el email: $email'),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('Ir al Login'),
             onPressed: ()=> Navigator.pushReplacementNamed(context, 'login')),
         ],

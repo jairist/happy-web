@@ -21,7 +21,7 @@ class TotalesChart extends StatelessWidget {
         displayName: 'Cantidad de votos por Nivel',
         overlaySeries: true,
         //Personalizacion 
-        labelAccessorFn: (EvaluacioneServicioSeries series, _) => 'NIvel # ${series.nivel} catidad: ${series.cantidad}',
+        labelAccessorFn: (EvaluacioneServicioSeries series, _) => 'Ni vel # ${series.nivel} catidad: ${series.cantidad}',
         
         )
   ];

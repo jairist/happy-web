@@ -49,7 +49,7 @@ class RegisterPage extends StatelessWidget {
           ),
           containerWithDimension(size, bloc, dimensionWidth)
           ,
-           FlatButton(child:  Text('Ya tienes cuenta ? Login'),
+           TextButton(child:  Text('Ya tienes cuenta ? Login'),
               onPressed: ()=> Navigator.pushReplacementNamed(context, 'login'),
           ),
           SizedBox( height: 50.0 )

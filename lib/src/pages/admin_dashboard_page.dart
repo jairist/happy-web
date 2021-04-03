@@ -16,6 +16,7 @@ class AdminDashboardPage extends StatefulWidget {
 }
 
 class _AdminDashboardPageState extends State<AdminDashboardPage> {
+  
   bool loading = false;
   EvaluacionProvider evaluacion = new EvaluacionProvider();
   ProveedorProvider proveedorProvider = new ProveedorProvider();
@@ -27,10 +28,13 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
   int totalEvaluaciones = 0;
   int totalProveedores = 0;
+
+  ChildBackButtonDispatcher _backButtonDispatcher;
+
+
   @override
   void initState() {
     super.initState();
-    
     
   }
 
