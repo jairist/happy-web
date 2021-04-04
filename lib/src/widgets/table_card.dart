@@ -529,117 +529,130 @@ Widget tablaListaProveedores(BuildContext context, List<ProveedorModelo> data) {
                       ),
                     ),
                     Container(
+                      //height: ,
+
                       child: SafeArea(
+                        
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Flexible(
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-
-                                      primary: Colors.lightGreen,
-                                      onSurface: Colors.orangeAccent,
-                                      //padding: EdgeInsets.all(8.8),
-                                      //elevation: 2.0
-                                      
-                                      
+                              child: Tooltip(
+                                message: "Ver reporte",
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                        primary: Colors.lightGreen,
+                                        onSurface: Colors.orangeAccent,
+                                        //padding: EdgeInsets.all(8.8),
+                                        //elevation: 2.0                                      
+                                        
+                                        ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context, 
+                                      MaterialPageRoute(
+                                        builder: (context) => DetalleEvaluacionesProveedor(),
+                                        settings: RouteSettings(
+                                          arguments: data[i], 
+                                        )
                                       ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context, 
-                                    MaterialPageRoute(
-                                      builder: (context) => DetalleEvaluacionesProveedor(),
-                                      settings: RouteSettings(
-                                        arguments: data[i], 
-                                      )
-                                    ),
-                                    );
-                                },
-                                //Ver Reporte
-                                child: Icon(Icons.pie_chart_outlined
+                                      );
+                                  },
+                                  //Ver Reporte
+                                  child: Icon(Icons.pie_chart_outlined, 
+                                  ),
                                 ),
                               ),
                             ),
                             Flexible(
-                              child: TextButton(
-                                //color: Colors.blueAccent,
-                                style: TextButton.styleFrom(
+                              child: Tooltip(
+                                message: 'Editar',
+                                child: TextButton(
+                                  //color: Colors.blueAccent,
+                                  style: TextButton.styleFrom(
 
-                                      primary: Colors.orangeAccent,
-                                      onSurface: Colors.orangeAccent,
-                                      //padding: EdgeInsets.all(8.8),
-                                      //elevation: 2.0
-                                      
-                                      
+                                        primary: Colors.orangeAccent,
+                                        onSurface: Colors.orangeAccent,
+                                        //padding: EdgeInsets.all(8.8),
+                                        //elevation: 2.0
+                                        
+                                        
+                                        ),
+
+                                  onPressed: () {
+                                    // borrarProveedor(data[i].id);
+                                    Navigator.push(
+                                      context, 
+                                      MaterialPageRoute(
+                                        builder: (context) => EditarProveedor(),
+                                        settings: RouteSettings(
+                                          arguments: data[i], 
+                                        )
                                       ),
-
-                                onPressed: () {
-                                  // borrarProveedor(data[i].id);
-                                  Navigator.push(
-                                    context, 
-                                    MaterialPageRoute(
-                                      builder: (context) => EditarProveedor(),
-                                      settings: RouteSettings(
-                                        arguments: data[i], 
-                                      )
-                                    ),
-                                    );
-                                },
-                                //Editar Proveedor
-                                child: Icon( Icons.mode_edit,
+                                      );
+                                  },
+                                  //Editar Proveedor
+                                  child: Icon( Icons.mode_edit,
+                                  ),
                                 ),
                               ),
                             ),
                             //Descargar reporte del proveedores 
                             Flexible(
-                              child: TextButton(
-                                
-                                //color: Colors.blueAccent,
-                                style: TextButton.styleFrom(
-                                      primary: Colors.blue,
-                                      onSurface: Colors.blueAccent,
-                                      
+                              child: Tooltip(
+                                message: 'Descargar',
+                                child: TextButton(
+                                  
+                                  //color: Colors.blueAccent,
+                                  style: TextButton.styleFrom(
+                                        primary: Colors.blue,
+                                        onSurface: Colors.blueAccent,
+                                        
+                                        ),
+                                  onPressed: () {
+                                    // borrarProveedor(data[i].id);
+                                    Navigator.push(
+                                      context, 
+                                      MaterialPageRoute(
+                                        builder: (context) => HomeAlternativo(),
+                                        settings: RouteSettings(
+                                          arguments: data[i], 
+                                        )
                                       ),
-                                onPressed: () {
-                                  // borrarProveedor(data[i].id);
-                                  Navigator.push(
-                                    context, 
-                                    MaterialPageRoute(
-                                      builder: (context) => HomeAlternativo(),
-                                      settings: RouteSettings(
-                                        arguments: data[i], 
-                                      )
-                                    ),
-                                    );
-                                },
-                                //Descargar.
-                                child: Icon( Icons.file_download,
+                                      );
+                                  },
+                                  //Descargar.
+                                  child: Icon( Icons.file_download,
+                                  ),
                                 ),
                               ),
                             ),
                             Flexible(
-                              child: TextButton(
-                                style: TextButton.styleFrom(
+                              child: Tooltip(
+                                message: 'Eliminar',
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
 
-                                      primary: Colors.redAccent,
-                                      onSurface: Colors.red,
-                                      //padding: EdgeInsets.all(8.8),
-                                      //elevation: 2.0
+                                        primary: Colors.redAccent,
+                                        onSurface: Colors.red,
+                                        //padding: EdgeInsets.all(8.8),
+                                        //elevation: 2.0
+                                        ),
+                                  onPressed: () {
+                                    // borrarProveedor(data[i].id);
+                                    Navigator.push(
+                                      context, 
+                                      MaterialPageRoute(
+                                        builder: (context) => DeleteProveedor(),
+                                        settings: RouteSettings(
+                                          arguments: data[i], 
+                                        )
                                       ),
-                                onPressed: () {
-                                  // borrarProveedor(data[i].id);
-                                  Navigator.push(
-                                    context, 
-                                    MaterialPageRoute(
-                                      builder: (context) => DeleteProveedor(),
-                                      settings: RouteSettings(
-                                        arguments: data[i], 
-                                      )
-                                    ),
-                                    );
-                                },
-                                //Eliminar
-                                child: Icon( Icons.delete_outline,
+                                      );
+                                  },
+                                  //Eliminar
+                                  child: Icon( Icons.delete_outline,
+                                  ),
                                 ),
                               ),
                             ),

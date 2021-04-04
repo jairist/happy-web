@@ -16,6 +16,9 @@ import '../models/global.dart';
 class RegisterPage extends StatelessWidget {
   final usuarioProvider = new UsuarioProvider();
   final _prefs = new PreferenciasUsuario();
+  var usuarioController = TextEditingController();
+  var emailController = TextEditingController();
+  var claveCotroller = TextEditingController();
   
   @override
   Widget build(BuildContext context) {
@@ -95,14 +98,18 @@ class RegisterPage extends StatelessWidget {
 
   Widget _crearNombreUsuario(RegisterBloc bloc){
 
+    usuarioController.text = '';
+
     return  StreamBuilder(
 
       stream: bloc.userNameStream,
-      // initialData: initialData ,
+      initialData: '',
       builder: (BuildContext context, AsyncSnapshot snapshot){
+        
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: TextField(
+          controller: usuarioController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             icon: Icon(Icons.account_circle, color: lightGreen,),
@@ -119,14 +126,17 @@ class RegisterPage extends StatelessWidget {
   }
   Widget _crearEmail(RegisterBloc bloc){
 
+    emailController.text = '';
+
     return  StreamBuilder(
 
       stream: bloc.emailStream,
-      // initialData: initialData ,
+      initialData: '' ,
       builder: (BuildContext context, AsyncSnapshot snapshot){
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: TextField(
+          controller: emailController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             icon: Icon(Icons.alternate_email, color: lightGreen,),
@@ -143,15 +153,17 @@ class RegisterPage extends StatelessWidget {
   }
 
   Widget _crearPassword(RegisterBloc bloc){
+    claveCotroller.text = '';
 
     return StreamBuilder(
       stream: bloc.passwordStream ,
-      // initialData: initialData ,
+      initialData: '' ,
       builder: (BuildContext context, AsyncSnapshot snapshot){
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
             obscureText: true,
+            controller: claveCotroller,
             // keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               icon: Icon(Icons.lock_outline, color: lightGreen,),
@@ -181,7 +193,7 @@ class RegisterPage extends StatelessWidget {
             
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 20.0),
-              child: Text('Registarse'),
+              child: Text('Enviar Link'),
 
 
             ),
@@ -208,10 +220,12 @@ class RegisterPage extends StatelessWidget {
     if(info['ok']){
       _prefs.userName = bloc.userName.toString();
       Map info =   await usuarioProvider.resetearClave(bloc.email);
-      Navigator.pushReplacementNamed(context, 'login');
+      utils.mostrarAlertaParaEditarProveedor(context, 'Un correo ha sido enviado al usuario ${bloc.email} para que puede colocar su contraseña');
+      //Navigator.pushReplacementNamed(context, 'login');
     }else {
       utils.mostrarAlertaDeError(context, info['mensaje']);
     }
+    //bloc.emailStream = '';
 
     // Navigator.pushReplacementNamed(context, 'login');
 
