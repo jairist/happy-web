@@ -207,6 +207,7 @@ class RegisterPage extends StatelessWidget {
 
     if(info['ok']){
       _prefs.userName = bloc.userName.toString();
+      Map info =   await usuarioProvider.resetearClave(bloc.email);
       Navigator.pushReplacementNamed(context, 'login');
     }else {
       utils.mostrarAlertaDeError(context, info['mensaje']);

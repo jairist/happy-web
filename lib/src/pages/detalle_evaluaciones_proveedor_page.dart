@@ -70,12 +70,8 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
               controller: _controller,
               child: Column(
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height / 2.5,
-                    width: MediaQuery.of(context).size.width,
-                    //color: Colors.black,
-                    child: _construirDetalle(context, proveedor),
-                  ),
+                  _construirGraficoDistribucionSolo(context, proveedor),
+                  //_construirGraficoTotalesSolo(proveedor),
                   Container(
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
@@ -93,6 +89,28 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
     );
   }
 
+  Container _construirGraficoDistribucionSolo(BuildContext context, ProveedorModelo proveedor) {
+    return Container(
+        height: MediaQuery.of(context).size.height / 2.5,
+        width: MediaQuery.of(context).size.width,
+        //color: Colors.black,
+        child:  Container(
+          child: FutureBuilder <List<EvaluacioneServicioSeries>>(
+            future: cargarDataParaTotalPorServicio(proveedor.nombre),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                    child:_construirGraficoDistribucion(snapshot.data)
+                  );
+              }else {
+                return  Center(child: CircularProgressIndicator( backgroundColor: Colors.greenAccent,),);
+              }
+            }
+          ),
+        ),
+      );
+  }
+
 
   Widget _construirDetalle(BuildContext context, ProveedorModelo proveedor){
     return Column(
@@ -102,24 +120,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: FutureBuilder <List<EvaluacioneServicioSeries>>(
-                future: cargarDataParaTotalPorServicio(proveedor.nombre),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.none && snapshot.hasData == null) {
-                    
-                    return  Center(
-                      child: CircularProgressIndicator( backgroundColor: Colors.greenAccent,)
-                      ,);
-                    
-                  }else {
-                       return Container(
-                        child:_construirGraficoTotales(snapshot.data)
-                      );
-                  }
-                }
-              ),
-            ),
+            _construirGraficoTotalesSolo(proveedor),
             Expanded(
               child: FutureBuilder <List<EvaluacioneServicioSeries>>(
                 future: cargarDataParaTotalPorServicio(proveedor.nombre),
@@ -140,6 +141,31 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
       
     );
     
+  }
+
+  Container _construirGraficoTotalesSolo(ProveedorModelo proveedor) {
+    return Container(
+       height: MediaQuery.of(context).size.height / 2.5,
+      width: MediaQuery.of(context).size.width,
+      child: Expanded(
+        child: FutureBuilder <List<EvaluacioneServicioSeries>>(
+          future: cargarDataParaTotalPorServicio(proveedor.nombre),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.none && snapshot.hasData == null) {
+              
+              return  Center(
+                child: CircularProgressIndicator( backgroundColor: Colors.greenAccent,)
+                ,);
+              
+            }else {
+                  return Container(
+                  child:_construirGraficoTotales(snapshot.data)
+                );
+            }
+          }
+        ),
+      ),
+    );
   }
   Widget comentariosWidget(String nombreProveedor) {
     return Card( 
@@ -167,15 +193,11 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
               
             ),
             Divider( thickness: 1.0, color: Colors.lightGreen,),
-            Expanded(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _cargarListaComentarios(nombreProveedor),
-                ),
-              )
-              ),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              height: MediaQuery.of(context).size.height,
+              child: _cargarListaComentarios(nombreProveedor),
+            ),
           
           ],
         ),
@@ -191,7 +213,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
           if (projectSnap.connectionState == ConnectionState.none &&
               projectSnap.hasData == null) {
             return Container(
-              child: Text("Carge Vacio "),
+              child: Text("Carge Vacio "),  
             );
           }
           return new ListView.builder(
@@ -291,29 +313,29 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
   Card _construirGraficoTotales(List<EvaluacioneServicioSeries> data ) {
     return Card(
       elevation: 5,
-      child: SingleChildScrollView(
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(left: 5,top: 5),
-                  child: Text('RESULTADOS TOTALES', 
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                    fontSize: 14.0  
-                  ),),
-                )
-              ],
-            ),
-            Container(
-              height: 300,
-              width: 500,
-              child: TotalesChart(data: data, afuera: true),
-            ),
-            Container(
+      child: Column(
+        //mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.only(left: 5,top: 5),
+                child: Text('RESULTADOS TOTALES', 
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                  fontSize: 14.0  
+                ),),
+              )
+            ],
+          ),
+          Container(
+            height: 300,
+            width: 500,
+            child: TotalesChart(data: data, afuera: true),
+          ),
+          Expanded(
+            child: Container(
               padding: EdgeInsets.only(left: 5,top: 5),
 
               child:Row(
@@ -336,9 +358,9 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
                 ],
               )
               ),
-              SizedBox(height: 20,)
-          ]
-        ),
+          ),
+            SizedBox(height: 20,)
+        ]
       ),
     );
   }
@@ -373,7 +395,7 @@ class _DetalleEvaluacionesProveedorState extends State<DetalleEvaluacionesProvee
                     Container(
                       height: 300,
                       width: 500,
-                      child: TotalesChart(data: data, afuera: false),
+                      child: TotalesChart(data: data, afuera: true),
                       
                     ),
                     Row(

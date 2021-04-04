@@ -39,7 +39,7 @@ class _EditarProveedorState extends State<EditarProveedor> {
   }
   @override
   void didChangeDependencies() {
-      int temp = 0;
+    int temp = 0;
     int posicion = 0;
     
     final ProveedorModelo proveedor = ModalRoute.of(context).settings.arguments;

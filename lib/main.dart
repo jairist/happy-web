@@ -30,7 +30,7 @@ import 'src/models/global.dart';
     return Container(
       alignment: Alignment.center,
       child: Text(
-        'Cargando...',
+        'Cargando...${details.exception.toString()}',
         style: TextStyle(
           color: Colors.greenAccent,
           fontSize: 18.0
